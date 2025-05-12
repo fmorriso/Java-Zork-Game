@@ -113,6 +113,11 @@ public class Game {
             }
             case GRAB -> {
                 // if the room contains swords or magic stones, grab them and remove them from the room
+                if (currentRoom.canGrab()) {
+
+                } else {
+                    System.err.println("The current floor has nothing for you to grab.  Command rejected.");
+                }
             }
             case FIGHT -> {
                 // if the room contains a monster and the player possesses a sword, the user can use the

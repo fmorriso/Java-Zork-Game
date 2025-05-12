@@ -56,4 +56,8 @@ public class Room {
    }
 
    public int getFloor() {return floorNumber;  }
+
+   public boolean canGrab() {
+      return artifacts.contains(GameArtifact.SWORD) || artifacts.contains(GameArtifact.MAGICSTONES);
+   }
 }
