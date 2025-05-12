@@ -80,14 +80,28 @@ public class Game {
                         currentRoom = currentFloor.getRoom(currentRoom.getRoomNumber());
                         currentRoom.setHasVisited(true);
                     } else {
-                        System.out.println("You're already on the top floor.  Command rejected.");
+                        System.err.println("You're already on the top floor.  Command rejected.");
                     }
+                } else {
+                    System.err.println("The current room does not have stairs.  Command rejected.");
                 }
             }
 
             case DOWN -> {
                 // if the current room has stairs and there is a room below us, move down to the same room number on the floor below;
                 // otherwise, reject the command
+                if(currentRoom.hasStairs()) {
+                    if(currentRoom.getFloor() < numRooms - 1) {
+                        currentFloor = floors.get(currentRoom.getFloor() + 1);
+                        currentRoom = currentFloor.getRoom(currentRoom.getRoomNumber());
+                        currentRoom.setHasVisited(true);
+                    } else {
+                        System.err.println("You're already on the bottom floor.  Command rejected.");
+                    }
+                } else {
+                    System.err.println("The current room does not have stairs.  Command rejected.");
+                }
+
             }
             case LEFT -> {
                 // if there is a room to our left, move to that room;
