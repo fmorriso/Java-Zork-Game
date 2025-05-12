@@ -7,6 +7,5 @@ public enum Commands {
     DOWN,
     GRAB,
     FIGHT,
-    HELP,
-    EXIT;
+    HELP;
 }

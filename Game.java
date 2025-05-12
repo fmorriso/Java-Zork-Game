@@ -38,6 +38,7 @@ public class Game {
 
         int randomRoom = RandomNumberUtilities.getRandomIntInRange(0, numRooms);
         currentRoom = currentFloor.getRoom(randomRoom);
+        currentRoom.setHasVisited(true);
 
         System.out.format("Game is using %d floors with %d rooms per floor%n", numFloors, numRooms);
 
@@ -85,6 +86,15 @@ public class Game {
             }
             case GRAB -> {
                 // if the room contains swords or magic stones, grab them and remove them from the room
+            }
+            case FIGHT -> {
+                // if the room contains a monster and the player possesses a sword, the user can use the
+                // sword to defeat the monster, which removes the monster from the room and removes the
+                // sword from the player;
+                // otherwise, reject the command
+            }
+            case  HELP -> {
+                // display game help
             }
         }
 

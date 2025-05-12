@@ -12,6 +12,7 @@ public class Room {
    
    private final int roomNumber;
    private List<GameArtifact> artifacts;
+   private boolean hasVisited = false;
 
    public Room(int roomNumber) {
       this.roomNumber = roomNumber;
@@ -39,8 +40,13 @@ public class Room {
    public String toString() {
       final StringBuilder sb = new StringBuilder("Room{");
       sb.append("roomNumber=").append(roomNumber);
+      sb.append(", hasVisited=").append(hasVisited);
       sb.append(", artifacts=").append(artifacts);
       sb.append('}');
       return sb.toString();
    }
+
+    public boolean isHasVisited() {return hasVisited;}
+    public void setHasVisited(boolean hasVisited) { this.hasVisited = hasVisited;}
+
 }
