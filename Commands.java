@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public enum Commands {
     LEFT,
     RIGHT,
@@ -6,5 +8,5 @@ public enum Commands {
     GRAB,
     FIGHT,
     HELP,
-    EXIT
+    EXIT;
 }
