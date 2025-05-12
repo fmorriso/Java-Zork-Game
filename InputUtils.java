@@ -181,4 +181,12 @@ public class InputUtils
         return askYesNoQuestion(title, question, null);
     }
 
+    public static String getAnswer(String title, String question) {
+        return (String) JOptionPane.showInputDialog(
+                null,
+                question,
+                title,
+                JOptionPane.QUESTION_MESSAGE
+        );
+    }
 }

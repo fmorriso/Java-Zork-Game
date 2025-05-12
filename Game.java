@@ -3,6 +3,7 @@ import java.util.*;
 
 public class Game {
 
+   private Player player;
 
    private final int numRooms;
    private final int numFloors;
@@ -28,6 +29,8 @@ public class Game {
    public void start() {
 
       System.out.println("Game started");
+      String playerName = InputUtils.getAnswer("Player", "What is your name?");
+      player = new Player(playerName);
 
       // pick a random room on a random floor as the current room.
       int randomFloor = RandomNumberUtilities.getRandomIntInRange(0, numFloors);
@@ -59,7 +62,33 @@ public class Game {
       System.out.println("Here is the state of the current room:");
       System.out.println(currentRoom);
 
+      // ask the user what they want to try to do
       Commands nextCommand = InputUtils.getSingleEnumChoice("Next Command", "What do youw want to do?", Commands.class);
+
+      switch(nextCommand) {
+         case UP -> {
+            // if the current room has stairs and there is a room above us, move up to the same room number on the floor above;
+            // otherwise, reject the command
+         }
+
+         case DOWN -> {
+            // if the current room has stairs and there is a room below us, move down to the same room number on the floor below;
+            // otherwise, reject the command
+         }
+         case LEFT -> {
+            // if there is a room to our left, move to that room;
+            // otherwise, reject the command
+         }
+         case RIGHT -> {
+            // if there is a room to our right, move to that room;
+            // otherwise, reject the command
+         }
+         case GRAB -> {
+            // if the room contains swords or magic stones, grab them and remove them from the room
+         }
+      }
+
+
       return false;
    }
 
