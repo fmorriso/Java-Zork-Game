@@ -28,4 +28,7 @@ public class Player {
     }
 
 
+    public void clearArifacts() {
+        artifacts = new ArrayList<GameArtifact>();
+    }
 }

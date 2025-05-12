@@ -45,6 +45,8 @@ public class Game {
 
     private void resetGame() {
         floors = new ArrayList<Floor>();
+        player.clearArifacts();
+
         for (int i = 0; i < numFloors; i++) {
             System.out.format("Creating floor %d%n", i);
             floors.add(new Floor(i, numRooms));
@@ -60,12 +62,12 @@ public class Game {
 
         System.out.format("Game is using %d floors with %d rooms per floor%n", numFloors, numRooms);
 
-        displayCurrentRoom();
+        displayCurrentGameStatus();
     }
 
     private boolean processNextCommand() {
         System.out.println("Before next command, the current room:");
-        displayCurrentRoom();
+        displayCurrentGameStatus();
 
         // ask the user what they want to try to do
         Commands nextCommand = InputUtils.getSingleEnumChoice("Next Command", "What do youw want to do?", Commands.class);
@@ -143,13 +145,14 @@ public class Game {
         }
 
         System.out.println("After command processing, the current room:");
-        displayCurrentRoom();
+        displayCurrentGameStatus();
 
         return false;
     }
 
-    public void displayCurrentRoom() {
+    public void displayCurrentGameStatus() {
         System.out.format("Current floor: %s%n", currentFloor);
         System.out.format("Current room: %s%n", currentRoom);
+        System.out.format("Player: %s%n", player);
     }
 }
