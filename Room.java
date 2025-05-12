@@ -60,4 +60,20 @@ public class Room {
    public boolean canGrab() {
       return artifacts.contains(GameArtifact.SWORD) || artifacts.contains(GameArtifact.MAGICSTONES);
    }
+
+   public boolean hasSword() {
+      return artifacts.contains(GameArtifact.SWORD);
+   }
+
+   public void removeSword() {
+      artifacts.remove(GameArtifact.SWORD);
+   }
+
+   public boolean hasMagicStones() {
+      return artifacts.contains(GameArtifact.MAGICSTONES);
+   }
+
+   public void removeMagicStones() {
+      artifacts.remove(GameArtifact.MAGICSTONES);
+   }
 }
