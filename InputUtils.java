@@ -27,6 +27,36 @@ public class InputUtils
         return choice;
     }
 
+    /**
+     * Display a question with multiple Enum choices and return the single choice made by the user.
+     *
+     * @param title - The title for the pop-up dialog.
+     * @param question - The question to ask the user just above the list of available choices.
+     * @param enumClass - The class name of the Enum
+     * @return - The single Enum choice of the user
+     *
+     */
+    public static <T extends Enum<T>> T getSingleEnumChoice(String title, String question, Class<T> enumClass) {
+        T[] enumConstants = enumClass.getEnumConstants();
+        String[] choices = new String[enumConstants.length];
+        for (int i = 0; i < enumConstants.length; i++) {
+            choices[i] = enumConstants[i].name();
+        }
+
+        String selected = (String) JOptionPane.showInputDialog(
+                null,
+                question,
+                title,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                choices,
+                choices[0] // default selection
+        );
+        if (selected == null) return null;
+
+        return Enum.valueOf(enumClass, selected);
+    }
+
     /** Prompts the user to enter a whole number and returns it.
      * @param title - the title to use when presenting the dialog box to the user.
      * @param msg - helpful text to tell the user what it is they are entering

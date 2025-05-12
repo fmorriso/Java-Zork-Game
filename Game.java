@@ -58,6 +58,8 @@ public class Game {
    private boolean processNextCommand() {
       System.out.println("Here is the state of the current room:");
       System.out.println(currentRoom);
+
+      Commands nextCommand = InputUtils.getSingleEnumChoice("Next Command", "What do youw want to do?", Commands.class);
       return false;
    }
 
