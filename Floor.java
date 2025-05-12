@@ -7,9 +7,9 @@ public class Floor {
    public Floor(int floorNumber, int numRooms) {
       this.floorNumber = floorNumber;
       rooms = new ArrayList<Room>(numRooms);
-      for(int i = 0; i < numRooms; i++){
-         rooms.add(new Room(i));
-         System.out.format("Created room %d%n", i);
+      for(int roomNumber = 0; roomNumber < numRooms; roomNumber++){
+         rooms.add(new Room(floorNumber, roomNumber));
+         //System.out.format("Created room %d on floor %d%n", roomNumber, floorNumber);
       }
       generateRandomArtifacts();
    }

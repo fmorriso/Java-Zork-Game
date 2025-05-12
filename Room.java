@@ -9,12 +9,13 @@ import java.util.List;
  */
 public class Room {
 
-   
+   private final int floorNumber;
    private final int roomNumber;
    private List<GameArtifact> artifacts;
    private boolean hasVisited = false;
 
-   public Room(int roomNumber) {
+   public Room(int floorNumber, int roomNumber) {
+      this.floorNumber = floorNumber;
       this.roomNumber = roomNumber;
       populateRoomWithRandomArtifacts();
    }
@@ -40,6 +41,7 @@ public class Room {
    public String toString() {
       final StringBuilder sb = new StringBuilder("Room{");
       sb.append("roomNumber=").append(roomNumber);
+      sb.append(", floorNumber=").append(floorNumber);
       sb.append(", hasVisited=").append(hasVisited);
       sb.append(", artifacts=").append(artifacts);
       sb.append('}');
@@ -49,4 +51,9 @@ public class Room {
     public boolean isHasVisited() {return hasVisited;}
     public void setHasVisited(boolean hasVisited) { this.hasVisited = hasVisited;}
 
+   public boolean hasStairs() {
+      return artifacts.contains(GameArtifact.STAIRS);
+   }
+
+   public int getFloor() {return floorNumber;  }
 }
