@@ -56,6 +56,8 @@ public class Game {
    }
 
    private boolean processNextCommand() {
+      System.out.println("Here is the state of the current room:");
+      System.out.println(currentRoom);
       return false;
    }
 

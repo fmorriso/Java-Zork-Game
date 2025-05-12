@@ -1,6 +1,12 @@
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The game prints out the contents of the current room after every command.
+ * The user can grab swords or magic stones if they walk into a room containing
+ * either of these items.
+ * The sword or stones are no longer in the room once grabbed.
+ */
 public class Room {
 
    
