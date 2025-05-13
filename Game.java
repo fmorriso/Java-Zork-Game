@@ -45,7 +45,8 @@ public class Game {
 
     private void resetGame() {
         floors = new ArrayList<Floor>();
-        player.clearArifacts();
+        player.clearArtifacts();
+        player.setAlive(true);
 
         for (int i = 0; i < numFloors; i++) {
             System.out.format("Creating floor %d%n", i);
@@ -134,6 +135,21 @@ public class Game {
                 // sword to defeat the monster, which removes the monster from the room and removes the
                 // sword from the player;
                 // otherwise, reject the command
+                if(currentRoom.hasMonster()){
+                    if(player.canFight() ) {
+                        currentRoom.removeArtifact(GameArtifact.MONSTER);
+                        player.removeArtifact(GameArtifact.SWORD);
+                    } else {
+                        // If the user fights without a sword, they will be defeated and the game will end.
+                        System.err.println("Player cannot fight the monster without a weapon.  Monster wins!");
+                        player.setAlive(false);
+                        return false;
+                    }
+
+                } else {
+                    System.err.println("The current room has no monsters.  Command rejected.");
+                }
+
             }
             case  HELP -> {
                 // display game help
@@ -147,7 +163,8 @@ public class Game {
         System.out.println("After command processing, the current room:");
         displayCurrentGameStatus();
 
-        return false;
+
+        return true;
     }
 
     public void displayCurrentGameStatus() {
