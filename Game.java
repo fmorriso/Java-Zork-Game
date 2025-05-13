@@ -72,8 +72,9 @@ public class Game {
 
         // ask the user what they want to try to do
         Commands nextCommand = InputUtils.getSingleEnumChoice("Next Command", "What do youw want to do?", Commands.class);
-
+        System.out.println("Processing command: " + nextCommand);
         switch (nextCommand) {
+
             case UP -> {
                 // if the current room has stairs and there is a room above us, move up to the same room number on the floor above;
                 // otherwise, reject the command
@@ -106,14 +107,29 @@ public class Game {
                 }
 
             }
+
             case LEFT -> {
                 // if there is a room to our left, move to that room;
                 // otherwise, reject the command
+                if (currentRoom.getRoomNumber() > 0) {
+                    currentRoom = currentFloor.getRoom(currentRoom.getRoomNumber() - 1);
+                    currentRoom.setHasVisited(true);
+                } else {
+                    System.err.println("You're already at the left-most room of the floor.  Command rejected.");
+                }
             }
+
             case RIGHT -> {
                 // if there is a room to our right, move to that room;
                 // otherwise, reject the command
+                if(currentRoom.getRoomNumber() < numRooms + 1) {
+                    currentRoom = currentFloor.getRoom(currentRoom.getRoomNumber() + 1);
+                    currentRoom.setHasVisited(true);
+                } else {
+                    System.err.println("You're already at the right-most room of the floor.  Command rejected.");
+                }
             }
+
             case GRAB -> {
                 // if the room contains swords or magic stones, grab them and remove them from the room
                 if (currentRoom.canGrab()) {
@@ -130,6 +146,7 @@ public class Game {
                     System.err.println("The current floor has nothing for you to grab.  Command rejected.");
                 }
             }
+
             case FIGHT -> {
                 // if the room contains a monster and the player possesses a sword, the user can use the
                 // sword to defeat the monster, which removes the monster from the room and removes the
@@ -151,9 +168,11 @@ public class Game {
                 }
 
             }
+
             case  HELP -> {
                 // display game help
             }
+
             case null -> {
                 System.err.println("Null command encountered");
             }

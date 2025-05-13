@@ -9,8 +9,8 @@ import java.util.List;
  */
 public class Room {
 
-   private final int floorNumber;
-   private final int roomNumber;
+   private  int floorNumber;
+   private  int roomNumber;
    private List<GameArtifact> artifacts;
    private boolean hasVisited = false;
 
@@ -36,6 +36,7 @@ public class Room {
    }
    
    public int getRoomNumber() { return this.roomNumber; }
+   public void setRoomNumber(int roomNumber) {this.roomNumber = roomNumber;}
 
    @Override
    public String toString() {
