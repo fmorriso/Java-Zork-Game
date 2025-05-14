@@ -33,13 +33,8 @@ public class Player {
                 && artifacts.contains(GameArtifact.MAGICSTONES);
     }
 
-    public boolean isAlive() {
-        return isAlive;
-    }
-
-    public void setAlive(boolean alive) {
-        isAlive = alive;
-    }
+    public boolean isAlive() {return isAlive;}
+    public void setAlive(boolean alive) {isAlive = alive;}
 
     @Override
     public String toString() {
