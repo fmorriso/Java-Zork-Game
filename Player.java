@@ -29,8 +29,7 @@ public class Player {
     }
 
     public boolean canFight() {
-        return artifacts.contains(GameArtifact.SWORD)
-                && artifacts.contains(GameArtifact.MAGICSTONES);
+        return artifacts.contains(GameArtifact.SWORD);
     }
 
     public boolean isAlive() {return isAlive;}
