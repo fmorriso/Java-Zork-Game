@@ -4,23 +4,17 @@ import java.util.List;
 public class Player {
     private final String name;
     private boolean isAlive;
+    private Room previousRoom;
     private List<GameArtifact> artifacts;
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("Player{");
-        sb.append("name='").append(name).append('\'');
-        sb.append(", isAlive=").append(isAlive);
-        sb.append(", artifacts=").append(artifacts);
-        sb.append('}');
-        return sb.toString();
-    }
 
     public Player(String name) {
         this.name = name;
         this.isAlive = true;
         artifacts = new ArrayList<GameArtifact>();
     }
+
+    public Room getPreviousRoom() {return previousRoom;}
+    public void setPreviousRoom(Room previousRoom) {this.previousRoom = previousRoom;}
 
     public void addArtifact(GameArtifact artifact) {
         artifacts.add(artifact);
@@ -44,5 +38,17 @@ public class Player {
 
     public void setAlive(boolean alive) {
         isAlive = alive;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Player{");
+        sb.append("name='").append(name).append('\'');
+        sb.append(", isAlive=").append(isAlive);
+        sb.append(", artifacts=").append(artifacts);
+        if (null != previousRoom)
+            sb.append(", previous room=").append(previousRoom);
+        sb.append('}');
+        return sb.toString();
     }
 }

@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * The game prints out the contents of the current room after every command.
@@ -9,8 +10,22 @@ import java.util.List;
  */
 public class Room {
 
-   private  int floorNumber;
+   private final int floorNumber;
    private  int roomNumber;
+
+   @Override
+   public boolean equals(Object o) {
+      if (this == o) return true;
+      if (!(o instanceof Room room)) return false;
+      return floorNumber == room.floorNumber
+               && roomNumber == room.roomNumber;
+   }
+
+   @Override
+   public int hashCode() {
+      return Objects.hash(floorNumber, roomNumber);
+   }
+
    private List<GameArtifact> artifacts;
    private boolean hasVisited = false;
 

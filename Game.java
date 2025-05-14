@@ -81,6 +81,7 @@ public class Game {
                 // otherwise, reject the command
                 if(currentRoom.hasStairs()) {
                     if(currentRoom.getFloor() > 0) {
+                        player.setPreviousRoom(currentRoom);
                         currentFloor = floors.get(currentRoom.getFloor() - 1);
                         currentRoom = currentFloor.getRoom(currentRoom.getRoomNumber());
                         currentRoom.setHasVisited(true);
@@ -97,6 +98,7 @@ public class Game {
                 // otherwise, reject the command
                 if(currentRoom.hasStairs()) {
                     if(currentRoom.getFloor() < numRooms - 1) {
+                        player.setPreviousRoom(currentRoom);
                         currentFloor = floors.get(currentRoom.getFloor() + 1);
                         currentRoom = currentFloor.getRoom(currentRoom.getRoomNumber());
                         currentRoom.setHasVisited(true);
@@ -113,14 +115,23 @@ public class Game {
                 // if there is a room to our left, move to that room;
                 // otherwise, reject the command
                 if (currentRoom.getRoomNumber() > 0) {
-                    // If they try to walk past a monster, they will be killed and the game will end.
+                    Room destinationRoom = currentFloor.getRoom(currentRoom.getRoomNumber() + 1);;
+                    // If they try to walk past a monster they could fight, they will be killed and the game will end.
                     if (currentRoom.hasMonster()) {
-                        System.err.println("You're trying to walk past a monster.  You are killed by that monster");
-                        player.setAlive(false);
-                        return false; // end game
+                        if (player.canFight()){
+                            System.err.println("You're trying to walk past a monster you could fight.  You are killed by that monster.");
+                            player.setAlive(false);
+                            return false; // end game
+                        } else if (destinationRoom.equals(player.getPreviousRoom())) {
+                            currentRoom = destinationRoom;
+                        } else {
+                            System.err.println("When a monster is present but you are unable to fight it, you can only return to the previous room. Command rejected.");
+                        }
+                    } else {
+                        player.setPreviousRoom(currentRoom);
+                        currentRoom = destinationRoom;
+                        currentRoom.setHasVisited(true);
                     }
-                    currentRoom = currentFloor.getRoom(currentRoom.getRoomNumber() - 1);
-                    currentRoom.setHasVisited(true);
                 } else {
                     System.err.println("You're already at the left-most room of the floor.  Command rejected.");
                 }
@@ -130,14 +141,25 @@ public class Game {
                 // if there is a room to our right, move to that room;
                 // otherwise, reject the command
                 if(currentRoom.getRoomNumber() < numRooms + 1) {
-                    // If they try to walk past a monster, they will be killed and the game will end.
+                    Room destinationRoom = currentFloor.getRoom(currentRoom.getRoomNumber() + 1);;
+                    // If they try to walk past a monster they could fight, they will be killed and the game will end.
                     if (currentRoom.hasMonster()) {
-                        System.err.println("You're trying to walk past a monster.  You are killed by that monster");
-                        player.setAlive(false);
-                        return false; // end game
+                        if (player.canFight()){
+                            System.err.println("You're trying to walk past a monster you could fight.  You are killed by that monster.");
+                            player.setAlive(false);
+                            return false; // end game
+                        } else if (destinationRoom.equals(player.getPreviousRoom())) {
+                            currentRoom = destinationRoom;
+                        } else {
+                            System.err.println("When a monster is present but you are unable to fight it, you can only return to the previous room. Command rejected.");
+                        }
+
+                    } else {
+                        player.setPreviousRoom(currentRoom);
+                        currentRoom = destinationRoom;
+                        currentRoom.setHasVisited(true);
                     }
-                    currentRoom = currentFloor.getRoom(currentRoom.getRoomNumber() + 1);
-                    currentRoom.setHasVisited(true);
+
                 } else {
                     System.err.println("You're already at the right-most room of the floor.  Command rejected.");
                 }
@@ -161,23 +183,26 @@ public class Game {
             }
 
             case FIGHT -> {
-                // if the room contains a monster and the player possesses a sword, the user can use the
+                // if the room contains a monster and the player has the necessary weapons, the user can use the
                 // sword to defeat the monster, which removes the monster from the room and removes the
-                // sword from the player;
-                // otherwise, reject the command
+                // sword from the player.
+                // If the room contains a monster and the player tries to fight the monster but lacks
+                // the necessary weapons, they are killed and the game ends.
+                // Otherwise, the command is rejected (because there is no monster to fight).
                 if(currentRoom.hasMonster()){
                     if(player.canFight() ) {
                         currentRoom.removeArtifact(GameArtifact.MONSTER);
                         player.removeArtifact(GameArtifact.SWORD);
+                        System.out.println("You killed the monster.");
                     } else {
                         // If the user fights without a sword, they will be defeated and the game will end.
-                        System.err.println("Player cannot fight the monster without a weapon.  Monster wins!");
+                        System.err.println("Player chose to fight the monster without a weapon.  Monster kills player!");
                         player.setAlive(false);
                         return false;
                     }
 
                 } else {
-                    System.err.println("The current room has no monsters.  Command rejected.");
+                    System.err.println("The current room has no monster.  Command rejected.");
                 }
 
             }
