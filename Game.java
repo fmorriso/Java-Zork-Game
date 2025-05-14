@@ -76,11 +76,10 @@ public class Game {
         System.out.println("Processing command: " + nextCommand);
         switch (nextCommand) {
 
-            case UP -> {
-                // if the current room has stairs and there is a room above us, move up to the same room number on the floor above;
+            case UP:// if the current room has stairs and there is a room above us, move up to the same room number on the floor above;
                 // otherwise, reject the command
-                if(currentRoom.hasStairs()) {
-                    if(currentRoom.getFloor() > 0) {
+                if (currentRoom.hasStairs()) {
+                    if (currentRoom.getFloor() > 0) {
                         player.setPreviousRoom(currentRoom);
                         currentFloor = floors.get(currentRoom.getFloor() - 1);
                         currentRoom = currentFloor.getRoom(currentRoom.getRoomNumber());
@@ -91,13 +90,12 @@ public class Game {
                 } else {
                     System.err.println("The current room does not have stairs.  Command rejected.");
                 }
-            }
+                break;
 
-            case DOWN -> {
-                // if the current room has stairs and there is a room below us, move down to the same room number on the floor below;
+            case DOWN:// if the current room has stairs and there is a room below us, move down to the same room number on the floor below;
                 // otherwise, reject the command
-                if(currentRoom.hasStairs()) {
-                    if(currentRoom.getFloor() < numRooms - 1) {
+                if (currentRoom.hasStairs()) {
+                    if (currentRoom.getFloor() < numRooms - 1) {
                         player.setPreviousRoom(currentRoom);
                         currentFloor = floors.get(currentRoom.getFloor() + 1);
                         currentRoom = currentFloor.getRoom(currentRoom.getRoomNumber());
@@ -108,11 +106,9 @@ public class Game {
                 } else {
                     System.err.println("The current room does not have stairs.  Command rejected.");
                 }
+                break;
 
-            }
-
-            case LEFT -> {
-                // if there is a room to our left, move to that room depending on monster presence;
+            case LEFT:// if there is a room to our left, move to that room depending on monster presence;
                 // otherwise, reject the command
                 if (currentRoom.getRoomNumber() > 0) {
                     Room destinationRoom = currentFloor.getRoom(currentRoom.getRoomNumber() - 1);
@@ -120,11 +116,11 @@ public class Game {
                     if (currentRoom.hasMonster()) {
                         // if user is backing out to the same room they were in previously, allow it, even if the user
                         // has the ability to fight the monster
-                        if (player.getPreviousRoom() == null  ||  destinationRoom.equals(player.getPreviousRoom())) {
+                        if (player.getPreviousRoom() == null || destinationRoom.equals(player.getPreviousRoom())) {
                             player.setPreviousRoom(currentRoom);
                             currentRoom = destinationRoom;
                             currentRoom.setHasVisited(true);
-                        } else if (player.canFight()){
+                        } else if (player.canFight()) {
                             // trying to walk past a monster in a direction away from the previous room, so player gets killed by the monster.
                             System.err.println("You're trying to walk past a monster you could fight.  You are killed by that monster.");
                             player.setAlive(false);
@@ -141,20 +137,20 @@ public class Game {
                 } else {
                     System.err.println("You're already at the left-most room of the floor.  Command rejected.");
                 }
-            }
+                break;
 
-            case RIGHT -> {
-                // if there is a room to our right, move to that room;
+            case RIGHT:// if there is a room to our right, move to that room;
                 // otherwise, reject the command
-                if(currentRoom.getRoomNumber() < numRooms - 1) {
-                    Room destinationRoom = currentFloor.getRoom(currentRoom.getRoomNumber() + 1);;
+                if (currentRoom.getRoomNumber() < numRooms - 1) {
+                    Room destinationRoom = currentFloor.getRoom(currentRoom.getRoomNumber() + 1);
+                    ;
                     // If they try to walk past a monster they could fight, they will be killed and the game will end.
                     if (currentRoom.hasMonster()) {
-                        if (player.getPreviousRoom() == null  ||  destinationRoom.equals(player.getPreviousRoom())) {
+                        if (player.getPreviousRoom() == null || destinationRoom.equals(player.getPreviousRoom())) {
                             player.setPreviousRoom(currentRoom);
                             currentRoom = destinationRoom;
                             currentRoom.setHasVisited(true);
-                        } else if (player.canFight()){
+                        } else if (player.canFight()) {
                             System.err.println("You're trying to walk past a monster you could fight.  You are killed by that monster.");
                             player.setAlive(false);
                             return false; // end game
@@ -170,16 +166,15 @@ public class Game {
                 } else {
                     System.err.println("You're already at the right-most room of the floor.  Command rejected.");
                 }
-            }
+                break;
 
-            case GRAB -> {
-                // if the room contains swords or magic stones, grab them and remove them from the room
+            case GRAB:// if the room contains swords or magic stones, grab them and remove them from the room
                 if (currentRoom.canGrab()) {
-                    if(currentRoom.hasSword()) {
+                    if (currentRoom.hasSword()) {
                         currentRoom.removeSword();
                         player.addArtifact(GameArtifact.SWORD);
                     }
-                    if(currentRoom.hasMagicStones()) {
+                    if (currentRoom.hasMagicStones()) {
                         currentRoom.removeMagicStones();
                         player.addArtifact(GameArtifact.MAGICSTONES);
                     }
@@ -187,17 +182,16 @@ public class Game {
                 } else {
                     System.err.println("The current floor has nothing for you to grab.  Command rejected.");
                 }
-            }
+                break;
 
-            case FIGHT -> {
-                // if the room contains a monster and the player has the necessary weapons, the user can use the
+            case FIGHT:// if the room contains a monster and the player has the necessary weapons, the user can use the
                 // sword to defeat the monster, which removes the monster from the room and removes the
                 // sword from the player.
                 // If the room contains a monster and the player tries to fight the monster but lacks
                 // the necessary weapons, they are killed and the game ends.
                 // Otherwise, the command is rejected (because there is no monster to fight).
-                if(currentRoom.hasMonster()){
-                    if(player.canFight() ) {
+                if (currentRoom.hasMonster()) {
+                    if (player.canFight()) {
                         currentRoom.removeArtifact(GameArtifact.MONSTER);
                         player.removeArtifact(GameArtifact.SWORD);
                         player.removeArtifact(GameArtifact.MAGICSTONES);
@@ -212,17 +206,14 @@ public class Game {
                 } else {
                     System.err.println("The current room has no monster.  Command rejected.");
                 }
+                break;
 
-            }
+            case HELP:// display game help
+                break;
 
-            case  HELP -> {
-                // display game help
-            }
-
-            case null -> {
-                System.err.println("Null command encountered");
-            }
-
+            default:
+                System.err.println("Empty or unrecognized command encountered.  No action taken.");
+                break;
         }
 
         System.out.println("After command processing, the current room:");
