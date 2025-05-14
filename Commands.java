@@ -1,5 +1,3 @@
-import java.util.Random;
-
 public enum Commands {
     LEFT,
     RIGHT,
