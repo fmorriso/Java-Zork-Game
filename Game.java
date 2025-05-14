@@ -190,11 +190,13 @@ public class Game {
                 // the necessary weapons, they are killed and the game ends.
                 // Otherwise, the command is rejected (because there is no monster to fight).
                 if (currentRoom.hasMonster()) {
+                    //TODO: figure out what ia a Boss Monster vs. Regular Monster and add logic here
                     if (player.canFightRegularMonster()) {
                         currentRoom.removeArtifact(GameArtifact.MONSTER);
                         player.removeArtifact(GameArtifact.SWORD);
-                        player.removeArtifact(GameArtifact.MAGICSTONES);
-                        System.out.println("You killed the monster.");
+                        if(player.hasGameArtifact(GameArtifact.MAGICSTONES))
+                            player.removeArtifact(GameArtifact.MAGICSTONES);
+                        System.out.println("You killed a regular monster.");
                     } else {
                         // If the user fights without a sword, they will be defeated and the game will end.
                         System.err.println("Player chose to fight the monster without a weapon.  Monster kills player!");

@@ -50,4 +50,8 @@ public class Player {
         sb.append('}');
         return sb.toString();
     }
+
+    public boolean hasGameArtifact(GameArtifact gameArtifact) {
+        return artifacts.contains(gameArtifact);
+    }
 }
