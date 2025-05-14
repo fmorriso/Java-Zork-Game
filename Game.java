@@ -112,22 +112,26 @@ public class Game {
             }
 
             case LEFT -> {
-                // if there is a room to our left, move to that room;
+                // if there is a room to our left, move to that room depending on monster presence;
                 // otherwise, reject the command
                 if (currentRoom.getRoomNumber() > 0) {
-                    Room destinationRoom = currentFloor.getRoom(currentRoom.getRoomNumber() + 1);;
-                    // If they try to walk past a monster they could fight, they will be killed and the game will end.
+                    Room destinationRoom = currentFloor.getRoom(currentRoom.getRoomNumber() + 1);
+                    // check for monster in current room
                     if (currentRoom.hasMonster()) {
-                        if (player.canFight()){
+                        // if user is backing out to the same room they were in previously, allow it, even if the user
+                        // has the ability to fight the monster
+                        if (destinationRoom.equals(player.getPreviousRoom())) {
+                            currentRoom = destinationRoom;
+                        } else if (player.canFight()){
+                            // trying to walk past a monster in a direction away from the previous room, so player gets killed by the monster.
                             System.err.println("You're trying to walk past a monster you could fight.  You are killed by that monster.");
                             player.setAlive(false);
                             return false; // end game
-                        } else if (destinationRoom.equals(player.getPreviousRoom())) {
-                            currentRoom = destinationRoom;
                         } else {
                             System.err.println("When a monster is present but you are unable to fight it, you can only return to the previous room. Command rejected.");
                         }
                     } else {
+                        // no monster and there is a room on the left, so allow it.
                         player.setPreviousRoom(currentRoom);
                         currentRoom = destinationRoom;
                         currentRoom.setHasVisited(true);
