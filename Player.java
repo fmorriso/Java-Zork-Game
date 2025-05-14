@@ -28,8 +28,12 @@ public class Player {
         artifacts = new ArrayList<GameArtifact>();
     }
 
-    public boolean canFight() {
+    public boolean canFightRegularMonster() {
         return artifacts.contains(GameArtifact.SWORD);
+    }
+
+    public boolean canFightBossMonster() {
+        return canFightRegularMonster() && artifacts.contains(GameArtifact.MAGICSTONES);
     }
 
     public boolean isAlive() {return isAlive;}

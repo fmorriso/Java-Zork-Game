@@ -120,7 +120,7 @@ public class Game {
                             player.setPreviousRoom(currentRoom);
                             currentRoom = destinationRoom;
                             currentRoom.setHasVisited(true);
-                        } else if (player.canFight()) {
+                        } else if (player.canFightRegularMonster()) {
                             // trying to walk past a monster in a direction away from the previous room, so player gets killed by the monster.
                             System.err.println("You're trying to walk past a monster you could fight.  You are killed by that monster.");
                             player.setAlive(false);
@@ -143,14 +143,13 @@ public class Game {
                 // otherwise, reject the command
                 if (currentRoom.getRoomNumber() < numRooms - 1) {
                     Room destinationRoom = currentFloor.getRoom(currentRoom.getRoomNumber() + 1);
-                    ;
                     // If they try to walk past a monster they could fight, they will be killed and the game will end.
                     if (currentRoom.hasMonster()) {
                         if (player.getPreviousRoom() == null || destinationRoom.equals(player.getPreviousRoom())) {
                             player.setPreviousRoom(currentRoom);
                             currentRoom = destinationRoom;
                             currentRoom.setHasVisited(true);
-                        } else if (player.canFight()) {
+                        } else if (player.canFightRegularMonster()) {
                             System.err.println("You're trying to walk past a monster you could fight.  You are killed by that monster.");
                             player.setAlive(false);
                             return false; // end game
@@ -191,7 +190,7 @@ public class Game {
                 // the necessary weapons, they are killed and the game ends.
                 // Otherwise, the command is rejected (because there is no monster to fight).
                 if (currentRoom.hasMonster()) {
-                    if (player.canFight()) {
+                    if (player.canFightRegularMonster()) {
                         currentRoom.removeArtifact(GameArtifact.MONSTER);
                         player.removeArtifact(GameArtifact.SWORD);
                         player.removeArtifact(GameArtifact.MAGICSTONES);
