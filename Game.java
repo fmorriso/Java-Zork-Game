@@ -144,16 +144,16 @@ public class Game {
             case RIGHT -> {
                 // if there is a room to our right, move to that room;
                 // otherwise, reject the command
-                if(currentRoom.getRoomNumber() < numRooms + 1) {
+                if(currentRoom.getRoomNumber() < numRooms - 1) {
                     Room destinationRoom = currentFloor.getRoom(currentRoom.getRoomNumber() + 1);;
                     // If they try to walk past a monster they could fight, they will be killed and the game will end.
                     if (currentRoom.hasMonster()) {
-                        if (player.canFight()){
+                        if (destinationRoom.equals(player.getPreviousRoom())) {
+                            currentRoom = destinationRoom;
+                        } else if (player.canFight()){
                             System.err.println("You're trying to walk past a monster you could fight.  You are killed by that monster.");
                             player.setAlive(false);
                             return false; // end game
-                        } else if (destinationRoom.equals(player.getPreviousRoom())) {
-                            currentRoom = destinationRoom;
                         } else {
                             System.err.println("When a monster is present but you are unable to fight it, you can only return to the previous room. Command rejected.");
                         }
@@ -163,7 +163,6 @@ public class Game {
                         currentRoom = destinationRoom;
                         currentRoom.setHasVisited(true);
                     }
-
                 } else {
                     System.err.println("You're already at the right-most room of the floor.  Command rejected.");
                 }
@@ -197,6 +196,7 @@ public class Game {
                     if(player.canFight() ) {
                         currentRoom.removeArtifact(GameArtifact.MONSTER);
                         player.removeArtifact(GameArtifact.SWORD);
+                        player.removeArtifact(GameArtifact.MAGICSTONES);
                         System.out.println("You killed the monster.");
                     } else {
                         // If the user fights without a sword, they will be defeated and the game will end.
