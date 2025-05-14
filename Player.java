@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
-    private String name;
+    private final String name;
     private boolean isAlive;
     private List<GameArtifact> artifacts;
 
@@ -29,7 +29,6 @@ public class Player {
     public void removeArtifact(GameArtifact artifact) {
         artifacts.remove(artifact);
     }
-
 
     public void clearArtifacts() {
         artifacts = new ArrayList<GameArtifact>();

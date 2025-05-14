@@ -26,6 +26,7 @@ public class Game {
         System.out.println("Game started");
         String playerName = InputUtils.getAnswer("Player", "What is your name?");
         player = new Player(playerName);
+        System.out.format("Player: %s%n", player);
 
         boolean playAgain = true;
         do {
@@ -112,6 +113,12 @@ public class Game {
                 // if there is a room to our left, move to that room;
                 // otherwise, reject the command
                 if (currentRoom.getRoomNumber() > 0) {
+                    // If they try to walk past a monster, they will be killed and the game will end.
+                    if (currentRoom.hasMonster()) {
+                        System.err.println("You're trying to walk past a monster.  You are killed by that monster");
+                        player.setAlive(false);
+                        return false; // end game
+                    }
                     currentRoom = currentFloor.getRoom(currentRoom.getRoomNumber() - 1);
                     currentRoom.setHasVisited(true);
                 } else {
@@ -123,6 +130,12 @@ public class Game {
                 // if there is a room to our right, move to that room;
                 // otherwise, reject the command
                 if(currentRoom.getRoomNumber() < numRooms + 1) {
+                    // If they try to walk past a monster, they will be killed and the game will end.
+                    if (currentRoom.hasMonster()) {
+                        System.err.println("You're trying to walk past a monster.  You are killed by that monster");
+                        player.setAlive(false);
+                        return false; // end game
+                    }
                     currentRoom = currentFloor.getRoom(currentRoom.getRoomNumber() + 1);
                     currentRoom.setHasVisited(true);
                 } else {

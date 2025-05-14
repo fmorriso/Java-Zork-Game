@@ -27,8 +27,13 @@ public class Floor {
    public String toString() {
       final StringBuilder sb = new StringBuilder("Floor{");
       sb.append("floorNumber=").append(floorNumber);
-      sb.append(", rooms=").append(rooms);
-      sb.append('}');
+      sb.append("\nrooms:\n");
+      for(Room room : rooms){
+         sb.append("\t");
+         sb.append(room);
+         sb.append("\n");
+      }
+      sb.append("}");
       return sb.toString();
    }
 }

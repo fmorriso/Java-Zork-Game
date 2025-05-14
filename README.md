@@ -14,9 +14,10 @@ Java Zork Game
 
 ## Change History
 
-| Date       | Description      |
-|:-----------|:-----------------|
-| 2025-05-12 | Initial creation |
+| Date       | Description                |
+|:-----------|:---------------------------|
+| 2025-05-12 | Initial creation           |
+| 2025-05-14 | Add fight or flight logic. |
 
 ## References
 
