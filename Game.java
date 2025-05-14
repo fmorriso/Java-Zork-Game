@@ -68,11 +68,11 @@ public class Game {
     }
 
     private boolean processNextCommand() {
-        System.out.println("Before next command, the current room:");
+        System.out.println("Before next command:");
         displayCurrentGameStatus();
 
         // ask the user what they want to try to do
-        Commands nextCommand = InputUtils.getSingleEnumChoice("Next Command", "What do youw want to do?", Commands.class);
+        Commands nextCommand = InputUtils.getSingleEnumChoice("Next Command", "What do you want to do?", Commands.class);
         System.out.println("Processing command: " + nextCommand);
         switch (nextCommand) {
 
@@ -115,13 +115,15 @@ public class Game {
                 // if there is a room to our left, move to that room depending on monster presence;
                 // otherwise, reject the command
                 if (currentRoom.getRoomNumber() > 0) {
-                    Room destinationRoom = currentFloor.getRoom(currentRoom.getRoomNumber() + 1);
+                    Room destinationRoom = currentFloor.getRoom(currentRoom.getRoomNumber() - 1);
                     // check for monster in current room
                     if (currentRoom.hasMonster()) {
                         // if user is backing out to the same room they were in previously, allow it, even if the user
                         // has the ability to fight the monster
-                        if (destinationRoom.equals(player.getPreviousRoom())) {
+                        if (player.getPreviousRoom() == null  ||  destinationRoom.equals(player.getPreviousRoom())) {
+                            player.setPreviousRoom(currentRoom);
                             currentRoom = destinationRoom;
+                            currentRoom.setHasVisited(true);
                         } else if (player.canFight()){
                             // trying to walk past a monster in a direction away from the previous room, so player gets killed by the monster.
                             System.err.println("You're trying to walk past a monster you could fight.  You are killed by that monster.");
@@ -148,8 +150,10 @@ public class Game {
                     Room destinationRoom = currentFloor.getRoom(currentRoom.getRoomNumber() + 1);;
                     // If they try to walk past a monster they could fight, they will be killed and the game will end.
                     if (currentRoom.hasMonster()) {
-                        if (destinationRoom.equals(player.getPreviousRoom())) {
+                        if (player.getPreviousRoom() == null  ||  destinationRoom.equals(player.getPreviousRoom())) {
+                            player.setPreviousRoom(currentRoom);
                             currentRoom = destinationRoom;
+                            currentRoom.setHasVisited(true);
                         } else if (player.canFight()){
                             System.err.println("You're trying to walk past a monster you could fight.  You are killed by that monster.");
                             player.setAlive(false);
