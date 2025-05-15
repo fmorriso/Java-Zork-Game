@@ -40,7 +40,7 @@ public class Game {
         do {
             resetGame();
             boolean keepPlaying = true;
-            // play until either the Monster gets us or we take away things from the Monster
+            // play until either a Monster gets us or we defeat the Boss Monster
             do {
                 keepPlaying = processNextCommand();
             } while (keepPlaying);
@@ -153,9 +153,12 @@ public class Game {
             //System.out.format("\t\tattempts=%d%n", attempts);
             GameArtifact ga = GameArtifact.getRandomRandomGameArtifact();
 
+
             // ignore Boss Monster and Prize until later
             if(ga.equals(GameArtifact.BOSSMONSTER)) continue;
             if(ga.equals(GameArtifact.PRIZE)) continue;
+            // wait until all rooms in the floor have been set up before dealing with stairs
+            if(ga.equals(GameArtifact.STAIRS)) continue;
 
             // only one Sword per game
             if(haveSword) continue;
@@ -334,7 +337,8 @@ public class Game {
                         currentRoom.removeArtifact(GameArtifact.REGULARMONSTER);
                         player.removeArtifact(GameArtifact.SWORD);
                         player.addArtifact(GameArtifact.MAGICSTONES);
-                        System.out.println("You killed a regular monster.");
+                        System.out.println("You killed the Boss monster!");
+                        return false;
                     } else {
                         // If the user fights without a sword, they will be defeated and the game will end.
                         System.err.println("Player chose to fight the boss monster without the necessary weapons.  Boss monster kills player!");
