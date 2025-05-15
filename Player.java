@@ -46,7 +46,7 @@ public class Player {
         sb.append(", isAlive=").append(isAlive);
         sb.append(", artifacts=").append(artifacts);
         if (null != previousRoom)
-            sb.append(", previous room=").append(previousRoom);
+            sb.append("\n\t    previous room=").append(previousRoom);
         sb.append('}');
         return sb.toString();
     }

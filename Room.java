@@ -45,8 +45,8 @@ public class Room {
    @Override
    public String toString() {
       final StringBuilder sb = new StringBuilder("Room{");
-      sb.append("roomNumber=").append(roomNumber);
-      sb.append(", floorNumber=").append(floorNumber);
+      sb.append("roomNumber=").append(roomNumber + 1);
+      sb.append(", floorNumber=").append(floorNumber + 1);
       sb.append(", hasVisited=").append(hasVisited);
       sb.append(", artifacts=").append(artifacts);
       sb.append('}');

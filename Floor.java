@@ -32,7 +32,7 @@ public class Floor {
    @Override
    public String toString() {
       final StringBuilder sb = new StringBuilder("Floor{");
-      sb.append("floorNumber=").append(floorNumber);
+      sb.append("floorNumber=").append(floorNumber + 1);
       sb.append("\nrooms:\n");
       for(Room room : rooms){
          sb.append("\t");

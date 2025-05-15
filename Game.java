@@ -387,21 +387,23 @@ public class Game {
 
     public void displayCurrentGameStatus() {
         StringBuilder sb = new StringBuilder();
-        for(Floor floor : floors){
+        for (int f = floors.size() - 1; f >= 0; f--) {
+            Floor floor = floors.get(f);
             sb.append("\nFloor number: ");
-            sb.append(floor.getFloorNumber());
+            sb.append(floor.getFloorNumber() + 1);
             sb.append("\n");
+
             for(Room room : floor.getRooms()){
-                sb.append("\t");
+                sb.append("\t    ");
                 sb.append(room.toString());
-                if(room.getRoomNumber() == currentRoom.getRoomNumber() && floor.getFloorNumber() == currentRoom.getFloorNumber()){
-                    sb.append(" ** CURRENT **");
+                if(room.equals(currentRoom)){
+                    sb.append(" <--- CURRENT");
                 }
                 sb.append("\n");
             }
 
         }
-        sb.append("Current ");
+        sb.append("\nCurrent ");
         sb.append(currentRoom.toString());
 
         sb.append("\n");
