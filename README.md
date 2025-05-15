@@ -7,9 +7,8 @@ Java Zork Game
 | Tool     |    Version |
 |:---------|-----------:|
 | Java     |   24.0.1.0 |
-| JUnit    |     5.12.1 |
 | IntelliJ | 2025.1.1.1 |
-| VSCode   |    1.100.0 |
+| VSCode   |    1.100.2 |
 | JGrasp   |   2.0.6_17 |
 
 ## Change History
