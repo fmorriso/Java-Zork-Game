@@ -81,8 +81,12 @@ public class Game {
             room.addArtifact(GameArtifact.BOSSMONSTER);
             haveBossMonster = true;
 
-            room.addArtifact(GameArtifact.PRIZE);
-            havePrize = true;
+            // prize must be in the same room as the BOSSMONSTER
+            if(!havePrize) {
+                room.addArtifact(GameArtifact.PRIZE);
+                havePrize = true;
+            }
+
         }
 
         // if no room has a sword, pick a random room to put one in.
@@ -148,14 +152,16 @@ public class Game {
             // only on Boss Monster for the entire game, regardless of floor or room.
             if(haveBossMonster && ga.equals(GameArtifact.BOSSMONSTER)) continue;
 
-            // only one Prize for the entire game, regardless of floor or room
-            if(havePrize && ga.equals(GameArtifact.PRIZE)) continue;
+            // only one Prize for the entire game, regardless of floor or room but it must be in the same room as the Boss Monster
+            if(havePrize && haveBossMonster && ga.equals(GameArtifact.PRIZE)) continue;
 
             // cannot exceed maximum allowable regular monsters per game, regardless of floor or room
             if(numRegularMonsters == MAX_REGULAR_MONSTERS) continue;
 
             // avoid duplicate artifacts in the same room
             if (!r.getArtifacts().contains(ga)) {
+                // cannot add Prize to the room if we don't already have a Boss Monster because they must exist in the same room
+                if(ga.equals(GameArtifact.PRIZE) && !haveBossMonster) continue;
                 r.addArtifact(ga);
 
                 switch (ga) {
