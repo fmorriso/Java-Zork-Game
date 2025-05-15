@@ -129,9 +129,12 @@ public class Game {
             populateRoomWithRandomArtifacts(r);
             f.addRoom(r);
         }
-        //TODO: make sure at least one room on the current floor has stairs
+
+        // Make sure at least one room on each floor has stairs
         if(!f.hasAtLeastOneRoomWithStairs()){
-            //TODO: *** CODE NEEDED HERE ***
+            int roomNum = RandomNumberUtilities.getRandomIntInRange(0, numRooms, false);
+            Room r = f.getRoom(roomNum);
+            r.addArtifact(GameArtifact.STAIRS);
         }
     }
 
