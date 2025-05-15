@@ -129,6 +129,7 @@ public class Game {
     private void populateFloor(Floor f) {
         int floorNumber = f.getFloorNumber();
         for(int roomNumber = 0; roomNumber < numRooms; roomNumber++){
+            System.out.format("\tPopulating room %d%n", roomNumber);
             Room r = new Room(floorNumber, roomNumber);
             populateRoomWithRandomArtifacts(r);
             f.addRoom(r);
@@ -146,34 +147,31 @@ public class Game {
         // note: we allow a list length of zero to indicate there is Nothing in the room.
         int numArtifacts = RandomNumberUtilities.getRandomIntInRange(0, 1, true);
 
-        for (int i = 0; i < numArtifacts; ) {
+        final int MAX_LOOP_ATTEMPTS = GameArtifact.values().length;
+
+        for (int i = 0, attempts = 0; i < numArtifacts && attempts < MAX_LOOP_ATTEMPTS; attempts++) {
+            //System.out.format("\t\tattempts=%d%n", attempts);
             GameArtifact ga = GameArtifact.getRandomRandomGameArtifact();
 
-            // only on Boss Monster for the entire game, regardless of floor or room.
-            if(haveBossMonster && ga.equals(GameArtifact.BOSSMONSTER)) continue;
+            // ignore Boss Monster and Prize until later
+            if(ga.equals(GameArtifact.BOSSMONSTER)) continue;
+            if(ga.equals(GameArtifact.PRIZE)) continue;
 
-            // only one Prize for the entire game, regardless of floor or room but it must be in the same room as the Boss Monster
-            if(havePrize && haveBossMonster && ga.equals(GameArtifact.PRIZE)) continue;
+            // only one Sword per game
+            if(haveSword) continue;
+
+            // only one pile of Magic Stones per game
+            if(haveMagicStones) continue;
 
             // cannot exceed maximum allowable regular monsters per game, regardless of floor or room
             if(numRegularMonsters == MAX_REGULAR_MONSTERS) continue;
 
             // avoid duplicate artifacts in the same room
             if (!r.getArtifacts().contains(ga)) {
-                // cannot add Prize to the room if we don't already have a Boss Monster because they must exist in the same room
-                if(ga.equals(GameArtifact.PRIZE) && !haveBossMonster) continue;
+
                 r.addArtifact(ga);
 
                 switch (ga) {
-                    case BOSSMONSTER:
-                        haveBossMonster = true;
-                        // make sure the Prize is in the same room as the Boss Monster
-                        r.addArtifact(GameArtifact.PRIZE);
-                        break;
-
-                    case PRIZE:
-                        havePrize = true;
-                        break;
 
                     case REGULARMONSTER:
                         numRegularMonsters++;
@@ -186,6 +184,7 @@ public class Game {
                     case MAGICSTONES:
                         haveMagicStones = true;
                         break;
+
                 }
 
                 i++;
