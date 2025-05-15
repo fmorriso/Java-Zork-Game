@@ -113,6 +113,18 @@ public class Game {
             haveMagicStones = true;
         }
 
+        // make sure there is at least one regular monster
+        if(numRegularMonsters == 0) {
+            int floorNum = RandomNumberUtilities.getRandomIntInRange(0, numFloors, false);
+            Floor floor = floors.get(floorNum);
+
+            int roomNum = RandomNumberUtilities.getRandomIntInRange(0, numRooms, false);
+            Room room = floor.getRoom(roomNum);
+
+            room.addArtifact(GameArtifact.REGULARMONSTER);
+            numRegularMonsters++;
+        }
+
         // pick a random room on a random floor as the current room.
         int randomFloor = RandomNumberUtilities.getRandomIntInRange(0, numFloors - 1);
         currentFloor = floors.get(randomFloor);
