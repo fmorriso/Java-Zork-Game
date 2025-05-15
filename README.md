@@ -18,6 +18,7 @@ Java Zork Game
 |:-----------|:---------------------------|
 | 2025-05-12 | Initial creation           |
 | 2025-05-14 | Add fight or flight logic. |
+| 2025-05-15 | Fix up game rules.         |
 
 ## References
 

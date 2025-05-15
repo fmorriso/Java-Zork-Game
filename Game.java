@@ -352,7 +352,10 @@ public class Game {
                 sb.append(room.toString());
                 sb.append("\n");
             }
+
         }
+        sb.append("Current ");
+        sb.append(currentRoom.toString());
         System.out.println(sb.toString());
 
         //System.out.format("Current floor: %s%n", currentFloor);
