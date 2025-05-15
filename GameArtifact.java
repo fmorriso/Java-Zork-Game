@@ -8,10 +8,10 @@ public enum GameArtifact {
    PRIZE,
    BOSSMONSTER;
 
-   private static final Random PRNG = new Random();
+   private static final Random rand = new Random();
 
    public static GameArtifact getRandomRandomGameArtifact() {
       GameArtifact[] artifacts = GameArtifact.values();
-      return artifacts[PRNG.nextInt(artifacts.length)];
+      return artifacts[rand.nextInt(artifacts.length)];
    }
 }
