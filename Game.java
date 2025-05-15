@@ -66,7 +66,7 @@ public class Game {
         for (int i = 0; i < numFloors; i++) {
             System.out.format("Creating floor %d%n", i);
             Floor f = new Floor(i, numRooms);
-            populateFloor(f);
+            populateRoomsOnFloor(f);
             floors.add(f);
         }
 
@@ -138,7 +138,7 @@ public class Game {
         displayCurrentGameStatus();
     }
 
-    private void populateFloor(Floor f) {
+    private void populateRoomsOnFloor(Floor f) {
         int floorNumber = f.getFloorNumber();
         for(int roomNumber = 0; roomNumber < numRooms; roomNumber++){
             System.out.format("\tPopulating room %d%n", roomNumber);
