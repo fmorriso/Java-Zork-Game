@@ -4,7 +4,7 @@ public class Floor {
    private int floorNumber;
    private List<Room> rooms;
 
-   public boolean isHasAtLeastOneRoomWithStairs() {
+   public boolean hasAtLeastOneRoomWithStairs() {
       return hasAtLeastOneRoomWithStairs;
    }
 
