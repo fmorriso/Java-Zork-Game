@@ -329,8 +329,21 @@ public class Game {
     }
 
     public void displayCurrentGameStatus() {
-        System.out.format("Current floor: %s%n", currentFloor);
-        System.out.format("Current room: %s%n", currentRoom);
+        StringBuilder sb = new StringBuilder();
+        for(Floor floor : floors){
+            sb.append("\nFloor number: ");
+            sb.append(floor.getFloorNumber());
+            sb.append("\n");
+            for(Room room : floor.getRooms()){
+                sb.append("\t");
+                sb.append(room.toString());
+                sb.append("\n");
+            }
+        }
+        System.out.println(sb.toString());
+
+        //System.out.format("Current floor: %s%n", currentFloor);
+        //System.out.format("Current room: %s%n", currentRoom);
         System.out.format("Player: %s%n", player);
     }
 }
