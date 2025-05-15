@@ -3,6 +3,8 @@ import java.util.List;
 
 public class Game {
 
+    private static final int MAX_REGULAR_MONSTERS = 3;
+
     private Player player;
 
     private int numRooms;
@@ -12,6 +14,12 @@ public class Game {
 
     private Floor currentFloor;
     private Room currentRoom;
+
+    private int numRegularMonsters = 0;
+    private boolean haveBossMonster = false;
+    private boolean havePrize = false;
+    private boolean haveSword;
+    private boolean haveMagicStones;
 
     public Game(int numFloors, int numRooms) {
         this.numFloors = numFloors;
@@ -49,9 +57,56 @@ public class Game {
         player.clearArtifacts();
         player.setAlive(true);
 
+        haveBossMonster = false;
+        numRegularMonsters = 0;
+        haveSword = false;
+        havePrize = false;
+        haveMagicStones = false;
+
         for (int i = 0; i < numFloors; i++) {
             System.out.format("Creating floor %d%n", i);
-            floors.add(new Floor(i, numRooms));
+            Floor f = new Floor(i, numRooms);
+            populateFoor(f);
+            floors.add(f);
+        }
+
+        // if we have no Boss Monster yet, select a random room in a random floor to put the Boss Monster and the Prize
+        if(!haveBossMonster) {
+            int floorNum = RandomNumberUtilities.getRandomIntInRange(0, numFloors, false);
+            Floor floor = floors.get(floorNum);
+
+            int roomNum = RandomNumberUtilities.getRandomIntInRange(0, numRooms, false);
+            Room room = floor.getRoom(roomNum);
+
+            room.addArtifact(GameArtifact.BOSSMONSTER);
+            haveBossMonster = true;
+
+            room.addArtifact(GameArtifact.PRIZE);
+            havePrize = true;
+        }
+
+        // if no room has a sword, pick a random room to put one in.
+        if(!haveSword) {
+            int floorNum = RandomNumberUtilities.getRandomIntInRange(0, numFloors, false);
+            Floor floor = floors.get(floorNum);
+
+            int roomNum = RandomNumberUtilities.getRandomIntInRange(0, numRooms, false);
+            Room room = floor.getRoom(roomNum);
+
+            room.addArtifact(GameArtifact.SWORD);
+            haveSword = true;
+        }
+
+        // if no room has magic stones, pick a random room to put them in
+        if(!haveMagicStones) {
+            int floorNum = RandomNumberUtilities.getRandomIntInRange(0, numFloors, false);
+            Floor floor = floors.get(floorNum);
+
+            int roomNum = RandomNumberUtilities.getRandomIntInRange(0, numRooms, false);
+            Room room = floor.getRoom(roomNum);
+
+            room.addArtifact(GameArtifact.MAGICSTONES);
+            haveMagicStones = true;
         }
 
         // pick a random room on a random floor as the current room.
@@ -65,6 +120,55 @@ public class Game {
         System.out.format("Game is using %d floors with %d rooms per floor%n", numFloors, numRooms);
 
         displayCurrentGameStatus();
+    }
+
+    private void populateFoor(Floor f) {
+        int floorNumber = f.getFloorNumber();
+        for(int roomNumber = 0; roomNumber < numRooms; roomNumber++){
+            Room r = new Room(floorNumber, roomNumber);
+            populateRoomWithRandomArtifacts(r);
+            f.addRoom(r);
+        }
+    }
+
+    private void populateRoomWithRandomArtifacts(Room r) {
+        // note: we allow a list length of zero to indicate there is Nothing in thr room.
+        int numArtifacts = RandomNumberUtilities.getRandomIntInRange(0, 1);//GameArtifact.values().length);
+
+        for (int i = 0; i < numArtifacts; ) {
+            GameArtifact ga = GameArtifact.getRandomRandomGameArtifact();
+
+            // only on Boss Monster for the entire game, regardless of floor or room.
+            if(haveBossMonster && ga.equals(GameArtifact.BOSSMONSTER)) continue;
+
+            // only one Prize for the entire game, regardless of floor or room
+            if(havePrize && ga.equals(GameArtifact.PRIZE)) continue;
+
+            // cannot exceed maximum allowable regular monsters per game, regardless of floor or room
+            if(numRegularMonsters == MAX_REGULAR_MONSTERS) continue;
+
+            // avoid duplicate artifacts in the same room
+            if (!r.getArtifacts().contains(ga)) {
+                r.addArtifact(ga);
+
+                if(ga.equals(GameArtifact.REGULARMONSTER)) numRegularMonsters++;
+                else if(ga.equals(GameArtifact.BOSSMONSTER)) {
+                    haveBossMonster = true;
+                    // make sure the Prize is in the same room as the Boss Monster
+                    r.addArtifact(GameArtifact.PRIZE);
+                    havePrize = true;
+                } else if(ga.equals(GameArtifact.SWORD))  haveSword = true;
+                else if(ga.equals(GameArtifact.MAGICSTONES)) haveMagicStones = true;
+                i++;
+            }
+        }
+    }
+
+    private void generateRandomArtifacts(Room room) {
+        int numArtifacts = RandomNumberUtilities.getRandomIntInRange(0, GameArtifact.values().length);
+        for(int i = 0; i < numArtifacts; i++){
+            generateRandomArtifacts(room);
+        }
     }
 
     private boolean processNextCommand() {
@@ -192,7 +296,7 @@ public class Game {
                 if (currentRoom.hasMonster()) {
                     //TODO: figure out what ia a Boss Monster vs. Regular Monster and add logic here
                     if (player.canFightRegularMonster()) {
-                        currentRoom.removeArtifact(GameArtifact.MONSTER);
+                        currentRoom.removeArtifact(GameArtifact.REGULARMONSTER);
                         player.removeArtifact(GameArtifact.SWORD);
                         if(player.hasGameArtifact(GameArtifact.MAGICSTONES))
                             player.removeArtifact(GameArtifact.MAGICSTONES);

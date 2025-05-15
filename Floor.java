@@ -2,21 +2,16 @@ import java.util.*;
 
 public class Floor {
    private int floorNumber;
-   private final List<Room> rooms;
+   private List<Room> rooms;
 
    public Floor(int floorNumber, int numRooms) {
       this.floorNumber = floorNumber;
       rooms = new ArrayList<Room>(numRooms);
-      for(int roomNumber = 0; roomNumber < numRooms; roomNumber++){
-         rooms.add(new Room(floorNumber, roomNumber));
-         //System.out.format("Created room %d on floor %d%n", roomNumber, floorNumber);
-      }
-      generateRandomArtifacts();
    }
 
-   private void generateRandomArtifacts() {
-      int numArtifacts = RandomNumberUtilities.getRandomIntInRange(0, GameArtifact.values().length);
-   }
+   public int getFloorNumber() {return floorNumber;}
+   public List<Room> getRooms() {return rooms; }
+   public void addRoom(Room room) {rooms.add(room); }
 
 
    public Room getRoom(int n) {
@@ -36,4 +31,7 @@ public class Floor {
       sb.append("}");
       return sb.toString();
    }
+
+
+
 }

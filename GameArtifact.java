@@ -2,9 +2,11 @@ import java.util.Random;
 
 public enum GameArtifact {
    SWORD,
-   MONSTER,
+   REGULARMONSTER,
    MAGICSTONES,
-   STAIRS;
+   STAIRS,
+   PRIZE,
+   BOSSMONSTER;
 
    private static final Random PRNG = new Random();
 

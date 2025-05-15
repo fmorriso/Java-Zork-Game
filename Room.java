@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -32,23 +33,9 @@ public class Room {
    public Room(int floorNumber, int roomNumber) {
       this.floorNumber = floorNumber;
       this.roomNumber = roomNumber;
-      populateRoomWithRandomArtifacts();
+      this.artifacts = new ArrayList<GameArtifact>();
    }
 
-   private void populateRoomWithRandomArtifacts() {
-      // note: we allow a list length of zero to indicate there is Nothing in thr room.
-      int numArtifacts = RandomNumberUtilities.getRandomIntInRange(0, GameArtifact.values().length);
-      artifacts = new ArrayList<GameArtifact>();
-      for (int i = 0; i < numArtifacts; ) {
-         GameArtifact ga = GameArtifact.getRandomRandomGameArtifact();
-         // avoid duplicate artifacts in the same room
-         if (!artifacts.contains(ga)) {
-            artifacts.add(ga);
-            i++;
-         }
-      }
-      int x = 0; // debug stop
-   }
    
    public int getRoomNumber() { return this.roomNumber; }
    public void setRoomNumber(int roomNumber) {this.roomNumber = roomNumber;}
@@ -94,10 +81,16 @@ public class Room {
    }
 
    public boolean hasMonster() {
-      return artifacts.contains(GameArtifact.MONSTER);
+      return artifacts.contains(GameArtifact.REGULARMONSTER);
    }
 
    public void removeArtifact(GameArtifact gameArtifact) {
       artifacts.remove(gameArtifact);
+   }
+
+   public List<GameArtifact> getArtifacts() {return artifacts;}
+
+   public void addArtifact(GameArtifact ga) {
+      artifacts.add(ga);
    }
 }
