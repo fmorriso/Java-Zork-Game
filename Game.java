@@ -151,6 +151,31 @@ public class Game {
             if (!r.getArtifacts().contains(ga)) {
                 r.addArtifact(ga);
 
+                switch (ga) {
+                    case BOSSMONSTER:
+                        haveBossMonster = true;
+                        // make sure the Prize is in the same room as the Boss Monster
+                        r.addArtifact(GameArtifact.PRIZE);
+                        break;
+
+                    case PRIZE:
+                        havePrize = true;
+                        break;
+
+                    case REGULARMONSTER:
+                        numRegularMonsters++;
+                        break;
+
+                    case SWORD:
+                        haveSword = true;
+                        break;
+
+                    case MAGICSTONES:
+                        haveMagicStones = true;
+                        break;
+                }
+
+                /*
                 if(ga.equals(GameArtifact.REGULARMONSTER)) numRegularMonsters++;
                 else if(ga.equals(GameArtifact.BOSSMONSTER)) {
                     haveBossMonster = true;
@@ -159,6 +184,8 @@ public class Game {
                     havePrize = true;
                 } else if(ga.equals(GameArtifact.SWORD))  haveSword = true;
                 else if(ga.equals(GameArtifact.MAGICSTONES)) haveMagicStones = true;
+                 */
+
                 i++;
             }
         }

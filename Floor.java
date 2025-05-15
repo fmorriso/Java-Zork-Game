@@ -4,6 +4,16 @@ public class Floor {
    private int floorNumber;
    private List<Room> rooms;
 
+   public boolean isHasAtLeastOneRoomWithStairs() {
+      return hasAtLeastOneRoomWithStairs;
+   }
+
+   public void setHasAtLeastOneRoomWithStairs(boolean hasAtLeastOneRoomWithStairs) {
+      this.hasAtLeastOneRoomWithStairs = hasAtLeastOneRoomWithStairs;
+   }
+
+   private boolean hasAtLeastOneRoomWithStairs;
+
    public Floor(int floorNumber, int numRooms) {
       this.floorNumber = floorNumber;
       rooms = new ArrayList<Room>(numRooms);
