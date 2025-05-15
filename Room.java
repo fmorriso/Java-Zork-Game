@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,10 +15,13 @@ public class Room {
 
    @Override
    public boolean equals(Object o) {
+      // since the number and type of artifacts in a given room may differ,
+      // we only care about floor number and room number when check for equality
+      // amoung instances.
       if (this == o) return true;
       if (!(o instanceof Room room)) return false;
       return floorNumber == room.floorNumber
-               && roomNumber == room.roomNumber;
+          && roomNumber == room.roomNumber;
    }
 
    @Override

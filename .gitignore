@@ -19,7 +19,6 @@ out/
 workspace.xml
 .idea/**/workspace.xml
 *.iml
-*.class
 
 ### Eclipse ###
 .apt_generated
