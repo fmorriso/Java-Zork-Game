@@ -128,7 +128,7 @@ public class Game {
 
         // pick a random room on a random floor as the current room.
         int randomFloor = RandomNumberUtilities.getRandomIntInRange(0, numFloors - 1);
-        randomFloor = 2; // DEBUG
+//        randomFloor = 0; // DEBUG - *** REMOVE AFTER FIXING LOGIC ERROR ***
         currentFloor = floors.get(randomFloor);
 
         int randomRoom = RandomNumberUtilities.getRandomIntInRange(0, numRooms - 1);
@@ -222,9 +222,9 @@ public class Game {
                 // otherwise, reject the command
                 if (currentRoom.hasStairs()) {
                     System.out.format("DEBUG: trying to go up from current floor number %d%n", currentRoom.getFloor());
-                    if (currentRoom.getFloor() > 0) {
+                    if (currentRoom.getFloor() < numFloors - 1) { // Can only go up from 0 and 1, not 2
                         player.setPreviousRoom(currentRoom);
-                        currentFloor = floors.get(currentRoom.getFloor() - 1);
+                        currentFloor = floors.get(currentRoom.getFloor() + 1);
                         currentRoom = currentFloor.getRoom(currentRoom.getRoomNumber());
                         currentRoom.setHasVisited(true);
                     } else {
