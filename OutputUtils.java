@@ -12,4 +12,14 @@ public class OutputUtils
     {
         JOptionPane.showMessageDialog(null, msg, title, JOptionPane.INFORMATION_MESSAGE);
     }
+
+    public static void displayWarning(String msg, String title)
+    {
+        JOptionPane.showMessageDialog(null, msg, title, JOptionPane.WARNING_MESSAGE);
+    }
+
+    public static void displayError(String msg, String title)
+    {
+        JOptionPane.showMessageDialog(null, msg, title, JOptionPane.ERROR_MESSAGE);
+    }
 }

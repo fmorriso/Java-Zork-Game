@@ -60,7 +60,7 @@ public class Room {
       return artifacts.contains(GameArtifact.STAIRS);
    }
 
-   public int getFloor() {return floorNumber;  }
+   public int getFloorNumber() {return floorNumber;  }
 
    public boolean canGrab() {
       return artifacts.contains(GameArtifact.SWORD) || artifacts.contains(GameArtifact.MAGICSTONES);

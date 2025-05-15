@@ -209,8 +209,8 @@ public class Game {
     }
 
     private boolean processNextCommand() {
-        System.out.println("Before next command:");
-        displayCurrentGameStatus();
+//        System.out.println("Before next command:");
+//        displayCurrentGameStatus();
 
         // ask the user what they want to try to do
         Commands nextCommand = InputUtils.getSingleEnumChoice("Next Command", "What do you want to do?", Commands.class);
@@ -221,17 +221,17 @@ public class Game {
                 // if the current room has stairs and there is a room above us, move up to the same room number on the floor above;
                 // otherwise, reject the command
                 if (currentRoom.hasStairs()) {
-                    System.out.format("DEBUG: trying to go up from current floor number %d%n", currentRoom.getFloor());
-                    if (currentRoom.getFloor() < numFloors - 1) { // Can only go up from 0 and 1, not 2
+                    System.out.format("DEBUG: trying to go up from current floor number %d%n", currentRoom.getFloorNumber());
+                    if (currentRoom.getFloorNumber() < numFloors - 1) { // Can only go up from 0 and 1, not 2
                         player.setPreviousRoom(currentRoom);
-                        currentFloor = floors.get(currentRoom.getFloor() + 1);
+                        currentFloor = floors.get(currentRoom.getFloorNumber() + 1);
                         currentRoom = currentFloor.getRoom(currentRoom.getRoomNumber());
                         currentRoom.setHasVisited(true);
                     } else {
-                        System.err.println("You're already on the top floor.  Command rejected.");
+                        OutputUtils.displayWarning("You're already on the top floor.", "Command rejected.");
                     }
                 } else {
-                    System.err.println("The current room does not have stairs.  Command rejected.");
+                    OutputUtils.displayWarning("The current room does not have stairs.", "Command rejected.");
                 }
                 break;
 
@@ -239,17 +239,17 @@ public class Game {
                 // if the current room has stairs and there is a room below us, move down to the same room number on the floor below;
                 // otherwise, reject the command
                 if (currentRoom.hasStairs()) {
-                    System.out.format("DEBUG: trying to go down from current floor number %d%n", currentRoom.getFloor());
-                    if (currentRoom.getFloor() < numFloors) {
+                    // System.out.format("DEBUG: trying to go down from current floor number %d%n", currentRoom.getFloorNumber());
+                    if (currentRoom.getFloorNumber() < numFloors) {
                         player.setPreviousRoom(currentRoom);
-                        currentFloor = floors.get(currentRoom.getFloor() - 1);
+                        currentFloor = floors.get(currentRoom.getFloorNumber() - 1);
                         currentRoom = currentFloor.getRoom(currentRoom.getRoomNumber());
                         currentRoom.setHasVisited(true);
                     } else {
-                        System.err.println("You're already on the bottom floor.  Command rejected.");
+                        OutputUtils.displayWarning("You're already on the bottom floor.","Command rejected.");
                     }
                 } else {
-                    System.err.println("The current room does not have stairs.  Command rejected.");
+                    OutputUtils.displayWarning("The current room does not have stairs.", "Command rejected.");
                 }
                 break;
 
@@ -267,11 +267,11 @@ public class Game {
                             currentRoom.setHasVisited(true);
                         } else if (player.canFightRegularMonster()) {
                             // trying to walk past a monster in a direction away from the previous room, so player gets killed by the monster.
-                            System.err.println("You're trying to walk past a monster you could fight.  You are killed by that monster.");
+                            OutputUtils.displayError("You're trying to walk past a regular monster you could fight.  You are killed by that regular monster.", "Game Over");
                             player.setAlive(false);
                             return false; // end game
                         } else {
-                            System.err.println("When a monster is present but you are unable to fight it, you can only return to the previous room. Command rejected.");
+                            OutputUtils.displayWarning("When a monster is present but you are unable to fight it, you can only return to the previous room. Command rejected.", "Command Rejected");
                         }
                     } else {
                         // no monster and there is a room on the left, so allow it.
@@ -280,7 +280,7 @@ public class Game {
                         currentRoom.setHasVisited(true);
                     }
                 } else {
-                    System.err.println("You're already at the left-most room of the floor.  Command rejected.");
+                    OutputUtils.displayWarning("You're already at the left-most room of the floor.","Command rejected.");
                 }
                 break;
 
@@ -295,11 +295,11 @@ public class Game {
                             currentRoom = destinationRoom;
                             currentRoom.setHasVisited(true);
                         } else if (player.canFightRegularMonster()) {
-                            System.err.println("You're trying to walk past a monster you could fight.  You are killed by that monster.");
+                            OutputUtils.displayError("You're trying to walk past a regular monster you could fight.  You are killed by that regular monster.", "Game Over");
                             player.setAlive(false);
                             return false; // end game
                         } else {
-                            System.err.println("When a monster is present but you are unable to fight it, you can only return to the previous room. Command rejected.");
+                            OutputUtils.displayWarning("When a monster is present but you are unable to fight it, you can only return to the previous room.","Command rejected.");
                         }
 
                     } else {
@@ -308,7 +308,7 @@ public class Game {
                         currentRoom.setHasVisited(true);
                     }
                 } else {
-                    System.err.println("You're already at the right-most room of the floor.  Command rejected.");
+                    OutputUtils.displayWarning("You're already at the right-most room of the floor.","Command rejected.");
                 }
                 break;
 
@@ -324,7 +324,7 @@ public class Game {
                     }
                     System.out.println(player);
                 } else {
-                    System.err.println("The current room has nothing for you to grab.  Command rejected.");
+                    OutputUtils.displayWarning("The current room has nothing for you to grab.","Command rejected.");
                 }
                 break;
 
@@ -340,8 +340,8 @@ public class Game {
                         player.removeArtifact(GameArtifact.SWORD);
                         System.out.println("You killed a regular monster.");
                     } else {
-                        // If the user fights without a sword, they will be defeated and the game will end.
-                        System.err.println("Player chose to fight a regular monster without a sword.  Regular Monster kills player!");
+                        // If the user fights a regular monster without a sword, they will be defeated and the game will end.
+                        OutputUtils.displayError("Player chose to fight a regular monster without a sword.  Regular Monster kills player!", "Game Over");
                         player.setAlive(false);
                         return false;
                     }
@@ -350,16 +350,16 @@ public class Game {
                         currentRoom.removeArtifact(GameArtifact.REGULARMONSTER);
                         player.removeArtifact(GameArtifact.SWORD);
                         player.addArtifact(GameArtifact.MAGICSTONES);
-                        System.out.println("You killed the Boss monster!");
+                        OutputUtils.displayMessage("You killed the Boss monster!", "Victory");
                         return false;
                     } else {
                         // If the user fights without a sword, they will be defeated and the game will end.
-                        System.err.println("Player chose to fight the boss monster without the necessary weapons.  Boss monster kills player!");
+                        OutputUtils.displayError("Player chose to fight the boss monster without the necessary weapons.  Boss monster kills player!","Game Over");
                         player.setAlive(false);
                         return false;
                     }
                 } else {
-                    System.err.println("The current room has no monster.  Command rejected.");
+                    OutputUtils.displayWarning("The current room has no monster.", "Command rejected.");
                 }
                 break;
 
@@ -367,7 +367,7 @@ public class Game {
                 break;
 
             default:
-                System.err.println("Empty or unrecognized command encountered.  No action taken.");
+                OutputUtils.displayWarning("Empty or unrecognized command encountered.", "No action taken.");
                 break;
         }
 
@@ -387,13 +387,21 @@ public class Game {
             for(Room room : floor.getRooms()){
                 sb.append("\t");
                 sb.append(room.toString());
+                if(room.getRoomNumber() == currentRoom.getRoomNumber() && floor.getFloorNumber() == currentRoom.getFloorNumber()){
+                    sb.append(" ** CURRENT **");
+                }
                 sb.append("\n");
             }
 
         }
         sb.append("Current ");
         sb.append(currentRoom.toString());
+
+        sb.append("\n");
+        sb.append(player.toString());
+
         System.out.println(sb.toString());
+        OutputUtils.displayMessage(sb.toString(), "Game Status");
 
         System.out.format("Player: %s%n", player);
     }
