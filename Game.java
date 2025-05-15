@@ -233,7 +233,7 @@ public class Game {
                 if (currentRoom.getRoomNumber() > 0) {
                     Room destinationRoom = currentFloor.getRoom(currentRoom.getRoomNumber() - 1);
                     // check for monster in current room
-                    if (currentRoom.hasMonster()) {
+                    if (currentRoom.hasRegularMonster()) {
                         // if user is backing out to the same room they were in previously, allow it, even if the user
                         // has the ability to fight the monster
                         if (player.getPreviousRoom() == null || destinationRoom.equals(player.getPreviousRoom())) {
@@ -264,7 +264,7 @@ public class Game {
                 if (currentRoom.getRoomNumber() < numRooms - 1) {
                     Room destinationRoom = currentFloor.getRoom(currentRoom.getRoomNumber() + 1);
                     // If they try to walk past a monster they could fight, they will be killed and the game will end.
-                    if (currentRoom.hasMonster()) {
+                    if (currentRoom.hasRegularMonster()) {
                         if (player.getPreviousRoom() == null || destinationRoom.equals(player.getPreviousRoom())) {
                             player.setPreviousRoom(currentRoom);
                             currentRoom = destinationRoom;
@@ -309,7 +309,7 @@ public class Game {
                 // If the room contains a monster and the player tries to fight the monster but lacks
                 // the necessary weapons, they are killed and the game ends.
                 // Otherwise, the command is rejected (because there is no monster to fight).
-                if (currentRoom.hasMonster()) {
+                if (currentRoom.hasRegularMonster()) {
                     //TODO: figure out what ia a Boss Monster vs. Regular Monster and add logic here
                     if (player.canFightRegularMonster()) {
                         currentRoom.removeArtifact(GameArtifact.REGULARMONSTER);
@@ -361,8 +361,6 @@ public class Game {
         sb.append(currentRoom.toString());
         System.out.println(sb.toString());
 
-        //System.out.format("Current floor: %s%n", currentFloor);
-        //System.out.format("Current room: %s%n", currentRoom);
         System.out.format("Player: %s%n", player);
     }
 }

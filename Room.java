@@ -82,8 +82,7 @@ public class Room {
       artifacts.remove(GameArtifact.MAGICSTONES);
    }
 
-   public boolean hasMonster() {
-      return artifacts.contains(GameArtifact.REGULARMONSTER);
+   public boolean hasRegularMonster() { return artifacts.contains(GameArtifact.REGULARMONSTER);
    }
 
    public void removeArtifact(GameArtifact gameArtifact) {
