@@ -48,7 +48,8 @@ public class Game {
             playAgain = InputUtils.askYesNoQuestion("Continue playing", "Do you want to play again?");
         } while (playAgain);
 
-        System.out.println("Thank you for playing!");
+        OutputUtils.displayMessage("Thank you for playing", "Game Over");
+        //System.out.println("Thank you for playing!");
 
     }
 
@@ -81,7 +82,7 @@ public class Game {
             room.addArtifact(GameArtifact.BOSSMONSTER);
             haveBossMonster = true;
 
-            // prize must be in the same room as the BOSSMONSTER
+            // prize must be in the same room as the BOSS MONSTER
             if(!havePrize) {
                 room.addArtifact(GameArtifact.PRIZE);
                 havePrize = true;
@@ -127,6 +128,7 @@ public class Game {
 
         // pick a random room on a random floor as the current room.
         int randomFloor = RandomNumberUtilities.getRandomIntInRange(0, numFloors - 1);
+        randomFloor = 2; // DEBUG
         currentFloor = floors.get(randomFloor);
 
         int randomRoom = RandomNumberUtilities.getRandomIntInRange(0, numRooms - 1);
@@ -164,7 +166,6 @@ public class Game {
         for (int i = 0, attempts = 0; i < numArtifacts && attempts < MAX_LOOP_ATTEMPTS; attempts++) {
             //System.out.format("\t\tattempts=%d%n", attempts);
             GameArtifact ga = GameArtifact.getRandomRandomGameArtifact();
-
 
             // ignore Boss Monster and Prize until later
             if(ga.equals(GameArtifact.BOSSMONSTER)) continue;
@@ -239,9 +240,9 @@ public class Game {
                 // otherwise, reject the command
                 if (currentRoom.hasStairs()) {
                     System.out.format("DEBUG: trying to go down from current floor number %d%n", currentRoom.getFloor());
-                    if (currentRoom.getFloor() < numFloors - 1) {
+                    if (currentRoom.getFloor() < numFloors) {
                         player.setPreviousRoom(currentRoom);
-                        currentFloor = floors.get(currentRoom.getFloor() + 1);
+                        currentFloor = floors.get(currentRoom.getFloor() - 1);
                         currentRoom = currentFloor.getRoom(currentRoom.getRoomNumber());
                         currentRoom.setHasVisited(true);
                     } else {
