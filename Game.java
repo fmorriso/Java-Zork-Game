@@ -71,6 +71,18 @@ public class Game {
             floors.add(f);
         }
 
+        // make sure there is at least one regular monster
+        if(numRegularMonsters == 0) {
+            int floorNum = RandomNumberUtilities.getRandomIntInRange(0, numFloors, false);
+            Floor floor = floors.get(floorNum);
+
+            int roomNum = RandomNumberUtilities.getRandomIntInRange(0, numRooms, false);
+            Room room = floor.getRoom(roomNum);
+
+            room.addArtifact(GameArtifact.REGULARMONSTER);
+            numRegularMonsters++;
+        }
+
         // if we have no Boss Monster yet, select a random room in a random floor to put the Boss Monster and the Prize
         if(!haveBossMonster) {
             int floorNum = RandomNumberUtilities.getRandomIntInRange(0, numFloors, false);
@@ -81,6 +93,12 @@ public class Game {
 
             room.addArtifact(GameArtifact.BOSSMONSTER);
             haveBossMonster = true;
+
+            // Cannot have both a Boss Monster and Regular monster in the same room
+            if (room.hasRegularMonster()) {
+                room.removeArtifact(GameArtifact.REGULARMONSTER);
+                numRegularMonsters--;
+            }
 
             // prize must be in the same room as the BOSS MONSTER
             if(!havePrize) {
@@ -114,17 +132,7 @@ public class Game {
             haveMagicStones = true;
         }
 
-        // make sure there is at least one regular monster
-        if(numRegularMonsters == 0) {
-            int floorNum = RandomNumberUtilities.getRandomIntInRange(0, numFloors, false);
-            Floor floor = floors.get(floorNum);
 
-            int roomNum = RandomNumberUtilities.getRandomIntInRange(0, numRooms, false);
-            Room room = floor.getRoom(roomNum);
-
-            room.addArtifact(GameArtifact.REGULARMONSTER);
-            numRegularMonsters++;
-        }
 
         // pick a random room on a random floor as the current room.
         int randomFloor = RandomNumberUtilities.getRandomIntInRange(0, numFloors - 1);
@@ -209,8 +217,6 @@ public class Game {
     }
 
     private boolean processNextCommand() {
-//        System.out.println("Before next command:");
-//        displayCurrentGameStatus();
 
         // ask the user what they want to try to do
         Commands nextCommand = InputUtils.getSingleEnumChoice("Next Command", "What do you want to do?", Commands.class);
@@ -240,7 +246,7 @@ public class Game {
                 // otherwise, reject the command
                 if (currentRoom.hasStairs()) {
                     // System.out.format("DEBUG: trying to go down from current floor number %d%n", currentRoom.getFloorNumber());
-                    if (currentRoom.getFloorNumber() < numFloors) {
+                    if (currentRoom.getFloorNumber() > 0) {
                         player.setPreviousRoom(currentRoom);
                         currentFloor = floors.get(currentRoom.getFloorNumber() - 1);
                         currentRoom = currentFloor.getRoom(currentRoom.getRoomNumber());
@@ -338,7 +344,7 @@ public class Game {
                     if (player.canFightRegularMonster()) {
                         currentRoom.removeArtifact(GameArtifact.REGULARMONSTER);
                         player.removeArtifact(GameArtifact.SWORD);
-                        System.out.println("You killed a regular monster.");
+                        OutputUtils.displayMessage("You killed a regular monster.", "Victory");
                     } else {
                         // If the user fights a regular monster without a sword, they will be defeated and the game will end.
                         OutputUtils.displayError("Player chose to fight a regular monster without a sword.  Regular Monster kills player!", "Game Over");
@@ -364,6 +370,7 @@ public class Game {
                 break;
 
             case HELP:// display game help
+                displayCurrentGameStatus(); // might want to enhance this to show rules
                 break;
 
             default:
