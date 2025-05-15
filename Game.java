@@ -132,8 +132,8 @@ public class Game {
     }
 
     private void populateRoomWithRandomArtifacts(Room r) {
-        // note: we allow a list length of zero to indicate there is Nothing in thr room.
-        int numArtifacts = RandomNumberUtilities.getRandomIntInRange(0, 1);//GameArtifact.values().length);
+        // note: we allow a list length of zero to indicate there is Nothing in the room.
+        int numArtifacts = RandomNumberUtilities.getRandomIntInRange(0, 1, true);
 
         for (int i = 0; i < numArtifacts; ) {
             GameArtifact ga = GameArtifact.getRandomRandomGameArtifact();
@@ -164,12 +164,12 @@ public class Game {
         }
     }
 
-    private void generateRandomArtifacts(Room room) {
-        int numArtifacts = RandomNumberUtilities.getRandomIntInRange(0, GameArtifact.values().length);
-        for(int i = 0; i < numArtifacts; i++){
-            generateRandomArtifacts(room);
-        }
-    }
+//    private void generateRandomArtifacts(Room room) {
+//        int numArtifacts = RandomNumberUtilities.getRandomIntInRange(0, GameArtifact.values().length);
+//        for(int i = 0; i < numArtifacts; i++){
+//            generateRandomArtifacts(room);
+//        }
+//    }
 
     private boolean processNextCommand() {
         System.out.println("Before next command:");
