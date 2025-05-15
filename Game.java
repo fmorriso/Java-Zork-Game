@@ -164,13 +164,6 @@ public class Game {
         }
     }
 
-//    private void generateRandomArtifacts(Room room) {
-//        int numArtifacts = RandomNumberUtilities.getRandomIntInRange(0, GameArtifact.values().length);
-//        for(int i = 0; i < numArtifacts; i++){
-//            generateRandomArtifacts(room);
-//        }
-//    }
-
     private boolean processNextCommand() {
         System.out.println("Before next command:");
         displayCurrentGameStatus();
