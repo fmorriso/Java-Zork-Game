@@ -196,9 +196,11 @@ public class Game {
         System.out.println("Processing command: " + nextCommand);
         switch (nextCommand) {
 
-            case UP:// if the current room has stairs and there is a room above us, move up to the same room number on the floor above;
+            case UP:
+                // if the current room has stairs and there is a room above us, move up to the same room number on the floor above;
                 // otherwise, reject the command
                 if (currentRoom.hasStairs()) {
+                    System.out.format("DEBUG: trying to go up from current floor number %d%n", currentRoom.getFloor());
                     if (currentRoom.getFloor() > 0) {
                         player.setPreviousRoom(currentRoom);
                         currentFloor = floors.get(currentRoom.getFloor() - 1);
@@ -212,10 +214,12 @@ public class Game {
                 }
                 break;
 
-            case DOWN:// if the current room has stairs and there is a room below us, move down to the same room number on the floor below;
+            case DOWN:
+                // if the current room has stairs and there is a room below us, move down to the same room number on the floor below;
                 // otherwise, reject the command
                 if (currentRoom.hasStairs()) {
-                    if (currentRoom.getFloor() < numRooms - 1) {
+                    System.out.format("DEBUG: trying to go down from current floor number %d%n", currentRoom.getFloor());
+                    if (currentRoom.getFloor() < numFloors - 1) {
                         player.setPreviousRoom(currentRoom);
                         currentFloor = floors.get(currentRoom.getFloor() + 1);
                         currentRoom = currentFloor.getRoom(currentRoom.getRoomNumber());
@@ -299,7 +303,7 @@ public class Game {
                     }
                     System.out.println(player);
                 } else {
-                    System.err.println("The current floor has nothing for you to grab.  Command rejected.");
+                    System.err.println("The current room has nothing for you to grab.  Command rejected.");
                 }
                 break;
 
@@ -310,20 +314,28 @@ public class Game {
                 // the necessary weapons, they are killed and the game ends.
                 // Otherwise, the command is rejected (because there is no monster to fight).
                 if (currentRoom.hasRegularMonster()) {
-                    //TODO: figure out what ia a Boss Monster vs. Regular Monster and add logic here
                     if (player.canFightRegularMonster()) {
                         currentRoom.removeArtifact(GameArtifact.REGULARMONSTER);
                         player.removeArtifact(GameArtifact.SWORD);
-                        if(player.hasGameArtifact(GameArtifact.MAGICSTONES))
-                            player.removeArtifact(GameArtifact.MAGICSTONES);
                         System.out.println("You killed a regular monster.");
                     } else {
                         // If the user fights without a sword, they will be defeated and the game will end.
-                        System.err.println("Player chose to fight the monster without a weapon.  Monster kills player!");
+                        System.err.println("Player chose to fight a regular monster without a sword.  Regular Monster kills player!");
                         player.setAlive(false);
                         return false;
                     }
-
+                } else if (currentRoom.hasBossMonster()) {
+                    if (player.canFightBossMonster()) {
+                        currentRoom.removeArtifact(GameArtifact.REGULARMONSTER);
+                        player.removeArtifact(GameArtifact.SWORD);
+                        player.addArtifact(GameArtifact.MAGICSTONES);
+                        System.out.println("You killed a regular monster.");
+                    } else {
+                        // If the user fights without a sword, they will be defeated and the game will end.
+                        System.err.println("Player chose to fight the boss monster without the necessary weapons.  Boss monster kills player!");
+                        player.setAlive(false);
+                        return false;
+                    }
                 } else {
                     System.err.println("The current room has no monster.  Command rejected.");
                 }
