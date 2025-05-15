@@ -175,17 +175,6 @@ public class Game {
                         break;
                 }
 
-                /*
-                if(ga.equals(GameArtifact.REGULARMONSTER)) numRegularMonsters++;
-                else if(ga.equals(GameArtifact.BOSSMONSTER)) {
-                    haveBossMonster = true;
-                    // make sure the Prize is in the same room as the Boss Monster
-                    r.addArtifact(GameArtifact.PRIZE);
-                    havePrize = true;
-                } else if(ga.equals(GameArtifact.SWORD))  haveSword = true;
-                else if(ga.equals(GameArtifact.MAGICSTONES)) haveMagicStones = true;
-                 */
-
                 i++;
             }
         }
