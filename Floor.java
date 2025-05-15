@@ -42,6 +42,4 @@ public class Floor {
       return sb.toString();
    }
 
-
-
 }
