@@ -64,12 +64,7 @@ public class Game {
         havePrize = false;
         haveMagicStones = false;
 
-        for (int i = 0; i < numFloors; i++) {
-            System.out.format("Creating floor %d%n", i);
-            Floor f = new Floor(i, numRooms);
-            populateRoomsOnFloor(f);
-            floors.add(f);
-        }
+        populateFloors();
 
         // make sure there is at least one regular monster
         if(numRegularMonsters == 0) {
@@ -146,6 +141,15 @@ public class Game {
         System.out.format("Game is using %d floors with %d rooms per floor%n", numFloors, numRooms);
 
         displayCurrentGameStatus();
+    }
+
+    private void populateFloors() {
+        for (int i = 0; i < numFloors; i++) {
+            System.out.format("Creating floor %d%n", i);
+            Floor f = new Floor(i, numRooms);
+            populateRoomsOnFloor(f);
+            floors.add(f);
+        }
     }
 
     private void populateRoomsOnFloor(Floor f) {
