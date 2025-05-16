@@ -1,10 +1,10 @@
 import java.util.Random;
 
+/**
+ * An enumeration of valid game artifacts.
+ */
 public enum GameArtifact {
    SWORD("Sword"),
-   /**
-    * An enumeration of valid game artifacts.
-    */
    REGULARMONSTER("Regular Monster"),
    MAGICSTONES("Magic Stones"),
    STAIRS("Stairs"),
