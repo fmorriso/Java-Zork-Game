@@ -187,6 +187,7 @@ public class Game {
             // ignore Boss Monster and Prize until later
             if(ga.equals(GameArtifact.BOSSMONSTER)) continue;
             if(ga.equals(GameArtifact.PRIZE)) continue;
+            
             // wait until all rooms in the floor have been set up before dealing with stairs
             if(ga.equals(GameArtifact.STAIRS)) continue;
 
