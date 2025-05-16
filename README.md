@@ -21,4 +21,4 @@ Java Zork Game
 
 ## References
 
-* [JUnit](https://junit.org/junit5/)
+* [How to Make Dialogs with JOptionPane](https://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html)
