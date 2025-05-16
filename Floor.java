@@ -2,17 +2,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Floor {
-   private int floorNumber;
-   private List<Room> rooms;
-
-   public boolean hasAtLeastOneRoomWithStairs() {
-      return hasAtLeastOneRoomWithStairs;
-   }
-
-   public void setHasAtLeastOneRoomWithStairs(boolean hasAtLeastOneRoomWithStairs) {
-      this.hasAtLeastOneRoomWithStairs = hasAtLeastOneRoomWithStairs;
-   }
-
+   private final int floorNumber;
+   private final List<Room> rooms;
    private boolean hasAtLeastOneRoomWithStairs;
 
    public Floor(int floorNumber, int numRooms) {
@@ -22,12 +13,12 @@ public class Floor {
 
    public int getFloorNumber() {return floorNumber;}
    public List<Room> getRooms() {return rooms; }
+
+   public boolean hasAtLeastOneRoomWithStairs() {return hasAtLeastOneRoomWithStairs;}
+   public void setHasAtLeastOneRoomWithStairs(boolean value) {this.hasAtLeastOneRoomWithStairs = value;}
+
    public void addRoom(Room room) {rooms.add(room); }
-
-
-   public Room getRoom(int n) {
-      return rooms.get(n);
-   }
+   public Room getRoom(int n) {return rooms.get(n);}
 
    @Override
    public String toString() {
