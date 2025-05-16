@@ -218,6 +218,12 @@ public class Game {
                         haveMagicStones = true;
                         break;
 
+                    case PRIZE:
+                    case STAIRS:
+                    case BOSSMONSTER:
+                        // these are handled separately later on
+                        break;
+
                 }
 
                 i++;
