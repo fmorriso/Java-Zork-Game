@@ -67,16 +67,7 @@ public class Game {
         populateFloors();
 
         // make sure there is at least one regular monster
-        if(numRegularMonsters == 0) {
-            int floorNum = RandomNumberUtilities.getRandomIntInRange(0, numFloors, false);
-            Floor floor = floors.get(floorNum);
-
-            int roomNum = RandomNumberUtilities.getRandomIntInRange(0, numRooms, false);
-            Room room = floor.getRoom(roomNum);
-
-            room.addArtifact(GameArtifact.REGULARMONSTER);
-            numRegularMonsters++;
-        }
+        insureSomeRegularMonsters();
 
         // if we have no Boss Monster yet, select a random room in a random floor to put the Boss Monster and the Prize
         if(!haveBossMonster) {
@@ -127,7 +118,8 @@ public class Game {
             haveMagicStones = true;
         }
 
-
+        // make sure there is at least one regular monster
+        insureSomeRegularMonsters();
 
         // pick a random room on a random floor as the current room.
         int randomFloor = RandomNumberUtilities.getRandomIntInRange(0, numFloors - 1);
@@ -141,6 +133,19 @@ public class Game {
         System.out.format("Game is using %d floors with %d rooms per floor%n", numFloors, numRooms);
 
         displayCurrentGameStatus();
+    }
+
+    private void insureSomeRegularMonsters() {
+        if(numRegularMonsters == 0) {
+            int floorNum = RandomNumberUtilities.getRandomIntInRange(0, numFloors, false);
+            Floor floor = floors.get(floorNum);
+
+            int roomNum = RandomNumberUtilities.getRandomIntInRange(0, numRooms, false);
+            Room room = floor.getRoom(roomNum);
+
+            room.addArtifact(GameArtifact.REGULARMONSTER);
+            numRegularMonsters++;
+        }
     }
 
     private void populateFloors() {
