@@ -21,5 +21,8 @@ Java Zork Game
 | 2025-05-15 | Fix up game rules.         |
 
 ## References
-
+(last checked 2025-05-15)
 * [How to Make Dialogs with JOptionPane](https://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html)
+* [Java JOptionPane](https://www.geeksforgeeks.org/java-joptionpane/)
+* [User input and Java's JOptionPane example](https://www.theserverside.com/blog/Coffee-Talk-Java-News-Stories-and-Opinions/Java-user-input-with-a-Swing-JOptionPane-example?utm_source=chatgpt.com)
+* [Java Swing – JOptionPane showMessageDialog example](https://mkyong.com/swing/java-swing-how-to-make-a-simple-dialog/?utm_source=chatgpt.com&utm_source=chatgpt.com)
