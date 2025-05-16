@@ -10,6 +10,7 @@ Java Zork Game
 | IntelliJ | 2025.1.1.1 |
 | VSCode   |    1.100.2 |
 | JGrasp   |   2.0.6_17 |
+| Eclipse  |    2025-04 |
 
 ## Change History
 
