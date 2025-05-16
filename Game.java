@@ -9,7 +9,7 @@ public class Game {
 
     private int numRooms;
     private int numFloors;
-
+    private boolean keepSwordAfterFighting;
     private List<Floor> floors;
 
     private Floor currentFloor;
@@ -24,9 +24,17 @@ public class Game {
     public Game(int numFloors, int numRooms) {
         this.numFloors = numFloors;
         this.numRooms = numRooms;
-
+        this.keepSwordAfterFighting = getKeepSwordSetting();
         System.out.println("Game");
 
+    }
+
+    private boolean getKeepSwordSetting() {
+        try {
+            return Boolean.parseBoolean( KeyValueSettingsUtilities.getValue("KEEP_SWORD") );
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public void start() {
