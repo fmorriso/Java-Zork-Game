@@ -380,8 +380,6 @@ public class Game {
 
         System.out.println("After command processing, the current room:");
         displayCurrentGameStatus();
-
-
         return true;
     }
 
