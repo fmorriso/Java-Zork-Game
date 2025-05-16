@@ -220,6 +220,9 @@ public class Game {
 
         // ask the user what they want to try to do
         Commands nextCommand = InputUtils.getSingleEnumChoice("Next Command", "What do you want to do?", Commands.class);
+        if(nextCommand == null) {
+            return InputUtils.askYesNoQuestion("Warning", "You did not choose a command.  Do you want to try again?");
+        }
         System.out.println("Processing command: " + nextCommand);
         switch (nextCommand) {
 

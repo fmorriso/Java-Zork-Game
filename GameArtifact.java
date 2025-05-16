@@ -20,7 +20,7 @@ public enum GameArtifact {
    }
 
    /**
-    * Gets a randomly chosen game artifact from the list of valid one.
+    * Gets a randomly chosen game artifact from the list of valid ones.
     * @return - a randomly chosen game artifact
     */
    public static GameArtifact getRandomRandomGameArtifact() {
