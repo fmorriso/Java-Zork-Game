@@ -1,8 +1,19 @@
 class Main {
-   public static final int NUM_FLOORS = 3;
-   public static final int NUM_ROOMS = 5;
-   public static void main(String[] args) {
-      Game g = new Game(NUM_FLOORS, NUM_ROOMS);
-      g.start();
-   }
+
+    public static void main(String[] args) {
+        KeyValueSettingsUtilities.setFileName("settings.txt");
+        int numFloors = getNumFloors();
+        int numRooms = getNumRooms();
+
+        Game g = new Game(numFloors, numRooms);
+        g.start();
+    }
+
+    private static int getNumRooms() {
+        return Integer.parseInt(KeyValueSettingsUtilities.getValue("NUM_ROOMS"));
+    }
+
+    private static int getNumFloors() {
+        return Integer.parseInt(KeyValueSettingsUtilities.getValue("NUM_FLOORS"));
+    }
 }

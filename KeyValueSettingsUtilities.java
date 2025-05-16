@@ -11,7 +11,7 @@ public class KeyValueSettingsUtilities {
         KeyValueSettingsUtilities.filename = filename;
     }
 
-    public static String getValue(String key) throws Exception {
+    public static String getValue(String key)  {
 
         sanityChecks(key);
 
@@ -23,29 +23,30 @@ public class KeyValueSettingsUtilities {
             value = properties.getProperty(key);
         } catch (Exception e) {
             String msg = String.format("Error retrieving property %s from file %s: %s", key, filename, e.getMessage());
-            throw new Exception(msg);
+            return msg;
         }
         return value;
     }
 
-    private static void sanityChecks(String key) throws Exception {
+    private static String sanityChecks(String key)  {
         if(filename == null || filename.isEmpty()) {
-            throw new Exception("Filename was not set.  Please set it first before getting or setting key/value pairs.");
+            return "Filename was not set.  Please set it first before getting or setting key/value pairs.";
         }
         if(!new File(filename).exists()) {
             String msg = String.format("File %s does not exist", filename);
-            throw new FileNotFoundException(msg);
+            return msg;
         }
         if(key == null || key.isEmpty()) {
-            throw new Exception("Key is empty or null.");
+            return "Key is empty or null.";
         }
+        return "";
     }
 
-    public static void setValue(String key, String value) throws Exception {
+    public static String setValue(String key, String value) {
         sanityChecks(key);
         if(value == null || value.isEmpty()) {
             String msg = String.format("You cannot set the value of key %s to null or empty.", key);
-            throw new Exception(msg);
+            return msg;
         }
         properties.setProperty(key, value);
 
@@ -53,8 +54,10 @@ public class KeyValueSettingsUtilities {
         try (FileOutputStream output = new FileOutputStream(filename)) {
             // Store properties to the file
             properties.store(output, "Configuration File");
+            return "";
         } catch (IOException e) {
             e.printStackTrace();
+            return "Unable to write to file " + filename;
         }
     }
 
