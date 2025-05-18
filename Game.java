@@ -298,7 +298,7 @@ public class Game {
         if (currentRoom.hasRegularMonster()) {
             if (player.canFightRegularMonster()) {
                 currentRoom.removeArtifact(GameArtifact.REGULARMONSTER);
-                player.removeArtifact(GameArtifact.SWORD);
+                if(!keepSwordAfterFighting) player.removeArtifact(GameArtifact.SWORD);
                 OutputUtils.displayMessage("You killed a regular monster.", "Victory");
             } else {
                 // If the user fights a regular monster without a sword, they will be defeated and the game will end.
@@ -309,7 +309,7 @@ public class Game {
         } else if (currentRoom.hasBossMonster()) {
             if (player.canFightBossMonster()) {
                 currentRoom.removeArtifact(GameArtifact.REGULARMONSTER);
-                player.removeArtifact(GameArtifact.SWORD);
+                if(!keepSwordAfterFighting) player.removeArtifact(GameArtifact.SWORD);
                 player.addArtifact(GameArtifact.MAGICSTONES);
                 OutputUtils.displayMessage("You killed the Boss monster!", "Victory");
                 return true;
@@ -336,7 +336,7 @@ public class Game {
                 currentRoom.removeMagicStones();
                 player.addArtifact(GameArtifact.MAGICSTONES);
             }
-            System.out.println(player);
+            // System.out.println(player);
         } else {
             OutputUtils.displayWarning("The current room has nothing for you to grab.","Command rejected.");
         }
@@ -357,7 +357,12 @@ public class Game {
                     OutputUtils.displayError("You're trying to walk past a regular monster you could fight.  You are killed by that regular monster.", "Game Over");
                     player.setAlive(false);
                     return true;
-                } else {
+                } else if(canSneakPastMonster()) {
+                	player.setPreviousRoom(currentRoom);
+                    currentRoom = destinationRoom;
+                    currentRoom.setHasVisited(true);
+                	OutputUtils.displayInformation("You successfully sneaked past a regular monster", "Sneaky");
+                } else {                    
                     OutputUtils.displayWarning("When a monster is present but you are unable to fight it, you can only return to the previous room.","Command rejected.");
                 }
 
@@ -370,6 +375,19 @@ public class Game {
             OutputUtils.displayWarning("You're already at the right-most room of the floor.","Command rejected.");
         }
         return false;
+    }
+
+    /**
+     * @return - true if player is allowed to sneak past a monster instead of backing up or fighting it.
+     */
+    private boolean canSneakPastMonster() {
+        try {
+            int sneakPastPct = Integer.parseInt(KeyValueSettingsUtilities.getValue("SNEAK_PAST_MONSTER_CHANCE"));
+            int n = RandomNumberUtilities.getRandomIntInRange(0, 100, true);
+            return n >= sneakPastPct;
+        } catch (Exception e){
+            return false;
+        }
     }
 
     private boolean handleLeftCommand() {
@@ -390,6 +408,11 @@ public class Game {
                     OutputUtils.displayError("You're trying to walk past a regular monster you could fight.  You are killed by that regular monster.", "Game Over");
                     player.setAlive(false);
                     return true;
+                } else if(canSneakPastMonster()) {
+                	player.setPreviousRoom(currentRoom);
+                    currentRoom = destinationRoom;
+                    currentRoom.setHasVisited(true);
+                	OutputUtils.displayInformation("You successfully sneaked past a regular monster", "Sneaky");
                 } else {
                     OutputUtils.displayWarning("When a monster is present but you are unable to fight it, you can only return to the previous room. Command rejected.", "Command Rejected");
                 }
