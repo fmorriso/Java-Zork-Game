@@ -4,21 +4,22 @@ Java Zork Game
 
 ## Tools Used
 
-| Tool     |    Version |
-|:---------|-----------:|
-| Java     |   24.0.1.0 |
-| IntelliJ | 2025.1.1.1 |
-| VSCode   |    1.100.2 |
-| JGrasp   |   2.0.6_17 |
-| Eclipse  |    2025-03 |
+| Tool     |  Version |
+|:---------|---------:|
+| Java     | 24.0.1.0 |
+| IntelliJ | 2025.1.2 |
+| VSCode   |  1.100.3 |
+| JGrasp   | 2.0.6_17 |
+| Eclipse  |  2025-03 |
 
 ## Change History
 
-| Date       | Description                |
-|:-----------|:---------------------------|
-| 2025-05-12 | Initial creation           |
-| 2025-05-14 | Add fight or flight logic. |
-| 2025-05-15 | Fix up game rules.         |
+| Date       | Description                                      |
+|:-----------|:-------------------------------------------------|
+| 2025-05-12 | Initial creation                                 |
+| 2025-05-14 | Add fight or flight logic.                       |
+| 2025-05-15 | Fix up game rules.                               |
+| 2025-06-04 | Verify code runs with latest VSCode and IntelliJ |
 
 ## References
 (last checked 2025-05-15)
